@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Lambda, A Simple Image Host{% endblock %}
+
+{% block desc %}
+    Lambda is a simple, secure, and fast image, video, and file host.
+    With no ads, you can host direct links to files for free.
+{% endblock %}
+
+{% block content %}
+    <div class="logo">λ</div>
+    <div class="jumbo" style="position:absolute;right: 10px;bottom: 10px;text-align:right;width:auto;margin:0">
+        Lambda is a free service provided with no ads.
+        <br>Please consider donating so I can keep it that way.
+        <div style="letter-spacing:4px;">
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EV3HYRC79BNSE">
+                <i class="fa fa-paypal"></i>
+            </a>
+            <span style="letter-spacing:normal">
+            <a style="font-size:14pt" href="bitcoin:1N4eRM2nJ7bJAFXveWinaGDhLkmHRwv6ah?label=lambda"><i class="fa fa-btc"></i></a>
+            <a style="font-size:10pt" href="http://λ.pw/ue4#sew3pcbx62j00000">
+                (addr)
+            </a>
+            </span>
+        </div>
+
+    </div>
+    <footer>
+        Lambda is an image hosting site. Lambda takes no responsibility of uploads.
+        <br>Contact: contact@lambda.sx
+        <br>Legal: legal@lambda.sx
+    </footer>
+    <div id="lambda"></div>
+{% endblock %}

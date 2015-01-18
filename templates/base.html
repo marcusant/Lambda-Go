@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="language" content="English">
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="description" content="{% block desc %}{% endblock %}">
+    <meta name="theme-color" content="#37474F"> <!--Top bar color for Android 5 Chrome-->
+    <title>λ - {% block title %}Untitled{% endblock %}</title>
+    {% block defaultcss %}
+    <link href='/static/img/favicon.ico' rel='shortcut icon' type='image/x-icon' />
+    <link href='//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.0/css/normalize.min.css' rel='stylesheet' type='text/css' />
+    <link href='//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.0/css/foundation.min.css' rel='stylesheet' type='text/css' />
+    <link href='/static/css/index.css' rel='stylesheet' type='text/css' />
+    {% endblock %}
+    {% block head %}{% endblock %}
+    {% block themecss %}
+        <link href="/static/themes/material/material.css" rel="stylesheet" />
+    {% endblock %}
+    {% block head_after_theme %}{% endblock %}
+</head>
+
+<body>
+    {% include "navbar.html" %}
+    <noscript><div id="jscheck" data-alert class="alert-box alert" style="margin: 10px auto auto;max-width:500px;">
+        Lambda uses JavaScript for a lot of things and, unlike most sites, none of them compromise your privacy.
+        <br>
+        Please allow Lambda through NoScript for the best experience.
+    </div></noscript>
+    {% block content %}{% endblock %}
+    {% include "bodyend.html" %}
+    {% block themejs %}
+        <script src="/static/themes/material/material.js" async defer></script>
+    {% endblock %}
+    {% block scripts %}{% endblock %}
+</body>
+</html>

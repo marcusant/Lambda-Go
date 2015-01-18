@@ -1,0 +1,149 @@
+body {
+    background: url('img/brushed.png') repeat;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+footer {
+    color: #000
+}
+
+.jumbo {
+    background-color: #ffffff;
+    color: #1f1f1f;
+    padding: 10px;
+    width: 80vw;
+    max-width: 800px;
+    border: none;
+    border-radius: 0;
+
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+/* For jumbos that have icons on top */
+.icon-labeled {
+    /*36 = Half of top icon height*/
+    padding: 36pt 10px 10px;
+}
+
+.icon-labeled:not(.center-vertical) {
+    /*Offset to make up for negative margin of top-icon, plus some to leave breathing room*/
+    margin-top: 48pt;
+    margin-bottom: 20px;
+}
+
+.top-icon {
+    width: 64pt;
+    height: 64pt;
+    left: 50%;
+    margin-left: -32pt; /*Center, half of width*/
+    margin-top: -68pt; /*Shift up halfway + 36 offset to make up for padding*/
+    margin-bottom: 10px; /*Allow room for text in the jumbo*/
+    position: relative;
+
+    text-align: center;
+    font-size: 48pt;
+    line-height: 64pt; /*Same as height of background*/
+
+    border-radius: 50%; /*Circle*/
+
+    /* Color later set randomly in js */
+    background: hsl(120,30%,70%);
+    background-size: cover;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
+    color: rgba(0, 0, 0, 0.4);
+}
+
+/* Main page lambda */
+.logo {
+    color: #000000
+}
+
+.top-bar {
+    z-index: 999;
+    background-color: #37474F;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+li:active, .top-bar-section li.active:not(.has-form) a:not(.button) {
+    background: #00796B;
+}
+
+.top-bar-section li:not(.has-form) a:not(.button) {
+    background-color: #37474F; /*same as top bar*/
+}
+
+h1, h2, h3, h4 {
+    color: #2f2f2f;
+}
+
+input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="email"], input[type="number"], input[type="search"], input[type="tel"], input[type="time"], input[type="url"], input[type="color"], textarea, textarea:focus {
+    padding: 0 6px 0 6px;
+    float: none;
+    box-shadow: none;
+    border-radius: 0;
+    background: transparent;
+    border-bottom: 1px solid #757575;
+    color: #757575;
+}
+
+textarea, textarea:focus {
+    background-color: #efefef;
+    border: 1px solid #ddd;
+}
+
+textarea:focus {
+    border: 1px solid #00ACC1;
+}
+
+input[type="text"]:read-only, input[type="password"]:read-only {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+input[type="text"]:focus:not(input:read-only), input[type="password"]:focus:not(input:read-only) {
+    border-bottom: 1px solid #00ACC1;
+}
+
+input[type="text"][disabled], input[type="text"][readonly], fieldset[disabled] input[type="text"], input[type="password"][disabled], input[type="password"][readonly], fieldset[disabled] input[type="password"], input[type="date"][disabled], input[type="date"][readonly], fieldset[disabled] input[type="date"], input[type="datetime"][disabled], input[type="datetime"][readonly], fieldset[disabled] input[type="datetime"], input[type="datetime-local"][disabled], input[type="datetime-local"][readonly], fieldset[disabled] input[type="datetime-local"], input[type="month"][disabled], input[type="month"][readonly], fieldset[disabled] input[type="month"], input[type="week"][disabled], input[type="week"][readonly], fieldset[disabled] input[type="week"], input[type="email"][disabled], input[type="email"][readonly], fieldset[disabled] input[type="email"], input[type="number"][disabled], input[type="number"][readonly], fieldset[disabled] input[type="number"], input[type="search"][disabled], input[type="search"][readonly], fieldset[disabled] input[type="search"], input[type="tel"][disabled], input[type="tel"][readonly], fieldset[disabled] input[type="tel"], input[type="time"][disabled], input[type="time"][readonly], fieldset[disabled] input[type="time"], input[type="url"][disabled], input[type="url"][readonly], fieldset[disabled] input[type="url"], input[type="color"][disabled], input[type="color"][readonly], fieldset[disabled] input[type="color"], textarea[disabled], textarea[readonly], fieldset[disabled] textarea {
+    background-color: #DDD;
+}
+
+.login-button {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: #009587;
+}
+
+.telement {
+    background-color: transparent;
+    color: #3f3f3f;
+    border: none;
+}
+
+.table {
+    background-color: transparent;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.upload-page-icon {
+    opacity: 0.6;
+}
+
+.alert-box.alert {
+    background-color: #DB4D4D;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.f-dropdown {
+    background-color: #37474F;
+}
+
+select, select:hover {
+    color: inherit;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.5);
+    background-color:  inherit;
+}
+
+a {
+    color: #5f9f7f;
+}

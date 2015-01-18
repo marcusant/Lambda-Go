@@ -1,0 +1,128 @@
+body {
+    background: #002b36 none;
+    color: #93a1a1;
+    font-family: monospace;
+}
+
+.paste-view-area {
+    font-size: 12px;
+    line-height: 14px;
+    font-family: monospace;
+    padding: 15px;
+}
+
+.paste-area, .paste-area:focus {
+    background: transparent;
+    width: 100%;
+    font-size: 11pt;
+    border: 0;
+    padding: 15px;
+    outline: none;
+    color: #93a1a1;
+    height: 94%;
+    max-height: 94%;
+    resize: none;
+    counter-reset: listing;
+    scrollbar-base-color: rgba(20, 20, 20, 0.8);
+    scrollbar-track-color: rgba(60, 60, 60, 0.4);
+}
+
+.button {
+    background: #073642;
+    color: #586e75;
+    position: fixed;
+    bottom: 10px;
+    right: 40px;
+    box-shadow: 2px 2px 0px rgba(10, 10, 10, 0.4);
+}
+
+header {
+    margin-top:-2.8125rem;
+    height:2.8125rem;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #586e75;
+  border: 0px none #ffffff;
+  border-radius: 30px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #586e75;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #657b83;
+}
+::-webkit-scrollbar-track {
+  background: #002b36;
+  border: 0px none #ffffff;
+  border-radius: 36px;
+}
+::-webkit-scrollbar-track:hover {
+  background: #073642;
+}
+::-webkit-scrollbar-track:active {
+  background: #073642;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.prettyprint {
+  color: #839496;
+  background-color: #002b36;
+}
+
+.prettyprint .pln {
+  color: inherit;
+}
+
+.prettyprint .str,
+.prettyprint .lit,
+.prettyprint .atv {
+  color: #2aa198;
+}
+
+.prettyprint .kwd {
+  color: #268bd2;
+}
+
+.prettyprint .com,
+.prettyprint .dec {
+  color: #586e75;
+  font-style: italic;
+}
+
+.prettyprint .typ {
+  color: #b58900;
+}
+
+.prettyprint .pun {
+  color: inherit;
+}
+
+.prettyprint .opn {
+  color: inherit;
+}
+
+.prettyprint .clo {
+  color: inherit;
+}
+
+.prettyprint .tag {
+  color: #268bd2;
+  font-weight: bold;
+}
+
+.prettyprint .atn {
+  color: inherit;
+}
+
+#wrapper {padding:2.8125rem 0; position:absolute; top:0; bottom:0; left:0; right:0;}
