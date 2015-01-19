@@ -2,11 +2,9 @@ package main
 
 import (
 	"fmt"
-	"lambda.sx/marcus/lambdago/models"
 	"lambda.sx/marcus/lambdago/sql"
 	"lambda.sx/marcus/lambdago/views"
 	"net/http"
-	"time"
 )
 
 // Function that is called for a view

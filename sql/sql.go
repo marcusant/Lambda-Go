@@ -1,6 +1,7 @@
 package sql
 
 import (
+	"database/sql"
 	"lambda.sx/marcus/lambdago/settings"
 	"log"
 	"upper.io/db"
@@ -33,7 +34,7 @@ func Connection() db.Database {
 }
 
 func createTables() {
-	driver = sqlConn.Driver().(*sql.DB)
+	driver := sqlConn.Driver().(*sql.DB)
 	// Create users table
 	driver.Query("CREATE TABLE IF NOT EXISTS users (" +
 		"id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT," +
