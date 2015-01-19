@@ -5,6 +5,7 @@ import (
 )
 
 type User struct {
+	ID           int       `db:"id"`
 	Username     string    `db:"username"`
 	Password     string    `db:"password"`
 	CreationDate time.Time `db:"creation_date"`

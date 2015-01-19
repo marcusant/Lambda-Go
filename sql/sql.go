@@ -10,25 +10,35 @@ import (
 var sqlConn db.Database = nil
 
 func Init() {
+	// Start a new SSL session
 	sess, err := db.Open(mysql.Adapter, settings.DBSettings())
 	if err != nil {
 		log.Fatalf("SQL connection failed! %q\n", err)
 		defer Shutdown()
 	} else {
 		sqlConn = sess
+		// Create all of the tables for Lambda
 		createTables()
 	}
 }
 
+// Shutdown closes the SQL connection
 func Shutdown() {
 	sqlConn.Close()
 }
 
+// Connection returns the current MySQL connection
 func Connection() db.Database {
 	return sqlConn
 }
 
 func createTables() {
 	driver = sqlConn.Driver().(*sql.DB)
-	driver.Query("CREATE TABLE IF NOT EXISTS users (username VARCHAR(32), password VARCHAR(64), creation_date Date)")
+	// Create users table
+	driver.Query("CREATE TABLE IF NOT EXISTS users (" +
+		"id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT," +
+		"username VARCHAR(32) NOT NULL," +
+		"password VARCHAR(64) NOT NULL," +
+		"creation_date Date NOT NULL" +
+		")")
 }
