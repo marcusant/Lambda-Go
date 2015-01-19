@@ -16,6 +16,7 @@ func Init() {
 		defer Shutdown()
 	} else {
 		sqlConn = sess
+		createTables()
 	}
 }
 
@@ -25,4 +26,9 @@ func Shutdown() {
 
 func Connection() db.Database {
 	return sqlConn
+}
+
+func createTables() {
+	driver = sqlConn.Driver().(*sql.DB)
+	driver.Query("CREATE TABLE IF NOT EXISTS users (username VARCHAR(32), password VARCHAR(64), creation_date Date)")
 }
