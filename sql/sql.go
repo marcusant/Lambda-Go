@@ -39,7 +39,7 @@ func createTables() {
 	driver.Query("CREATE TABLE IF NOT EXISTS users (" +
 		"id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT," +
 		"username VARCHAR(32) NOT NULL," +
-		"password VARCHAR(64) NOT NULL," +
+		"password VARCHAR(128) NOT NULL," +
 		"creation_date Date NOT NULL," +
 		"primary key(id)" +
 		")")

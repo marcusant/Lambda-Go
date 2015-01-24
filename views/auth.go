@@ -67,8 +67,8 @@ func HandleRegister(r *http.Request) (error, string) {
 			return nil, rendered_tpl
 		} else {
 			iter := 12000
-			salt := "fdsa" //TODO set to random base64 byte array
-			encpass := pbkdf2.Key([]byte(password), []byte(salt), iter, 64, sha256.New)
+			salt := "ks40mpIMeeiM" //TODO set to random base64 byte array
+			encpass := pbkdf2.Key([]byte(password), []byte(salt), iter, 32, sha256.New)
 			hash := base64.StdEncoding.EncodeToString(encpass)
 			// From django docs: <algorithm>$<iterations>$<salt>$<hash>
 			passentry := fmt.Sprintf("%s$%s$%s$%s", "pbkdf2_sha256", strconv.Itoa(iter), salt, hash)
