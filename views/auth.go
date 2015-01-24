@@ -1,6 +1,7 @@
 package views
 
 import (
+	"crypto/rand"
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
@@ -66,12 +67,8 @@ func HandleRegister(r *http.Request) (error, string) {
 			}
 			return nil, rendered_tpl
 		} else {
-			iter := 12000
-			salt := "ks40mpIMeeiM" //TODO set to random base64 byte array
-			encpass := pbkdf2.Key([]byte(password), []byte(salt), iter, 32, sha256.New)
-			hash := base64.StdEncoding.EncodeToString(encpass)
 			// From django docs: <algorithm>$<iterations>$<salt>$<hash>
-			passentry := fmt.Sprintf("%s$%s$%s$%s", "pbkdf2_sha256", strconv.Itoa(iter), salt, hash)
+			passentry := hashPasswordDefault(password)
 			col.Append(models.User{
 				Username:     username,
 				Password:     passentry,
@@ -87,4 +84,29 @@ func HandleRegister(r *http.Request) (error, string) {
 		return err, ""
 	}
 	return nil, rendered_tpl
+}
+
+// Creates a random base64 string of the specified length
+func genSalt(length int) string {
+	rb := make([]byte, length)
+	_, err := rand.Read(rb)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	rs := base64.URLEncoding.EncodeToString(rb)
+	return rs
+}
+
+// Hashes a password with a new generated salt and the default settings
+func hashPasswordDefault(pass string) string {
+	salt := genSalt(16)
+	return hashPassword(pass, salt, 12000, 32)
+}
+
+func hashPassword(pass string, salt string, iterations int, length int) string {
+	encpass := pbkdf2.Key([]byte(pass), []byte(salt), iterations, length, sha256.New)
+	hashstr := base64.StdEncoding.EncodeToString(encpass)
+	return fmt.Sprintf("%s$%s$%s$%s", "pbkdf2_sha256", strconv.Itoa(iterations), salt, hashstr)
 }
