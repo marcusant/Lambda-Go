@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="max-width:400px" class="text-center login-area jumbo center-vertical icon-labeled">
+    <div class="top-icon">{% block logo %}{% endblock %}</div>
+    {% for message in messages %}
+        <div data-alert class="alert-box alert round" style="margin:auto">
+            {{ message }}
+        </div>
+        <br>
+    {% endfor %}
+    {% block form %}{% endblock %}
+    </div>
+{% endblock %}

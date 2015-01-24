@@ -11,7 +11,8 @@ import (
 type ViewFunc func(*http.Request) (error, string)
 
 var urlMap = map[string]ViewFunc{
-	"/": views.HandleIndex,
+	"/":         views.HandleIndex,
+	"/register": views.HandleRegister,
 }
 
 func main() {

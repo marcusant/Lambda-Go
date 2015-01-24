@@ -40,6 +40,7 @@ func createTables() {
 		"id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT," +
 		"username VARCHAR(32) NOT NULL," +
 		"password VARCHAR(64) NOT NULL," +
-		"creation_date Date NOT NULL" +
+		"creation_date Date NOT NULL," +
+		"primary key(id)" +
 		")")
 }
