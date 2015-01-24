@@ -1,0 +1,20 @@
+{% extends "formbase.html" %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block logo %}<i class="fa fa-lock"></i>{% endblock %}
+
+{% block form %}
+<form method="post" target="_self">
+    <div class="row">
+        <input style="max-width:300px" name="username" type="text" placeholder="Username" class="inputbox"/>
+    </div>
+    <div class="row">
+        <input style="max-width:300px" name="password" type="password" placeholder="Password" class="inputbox"/>
+    </div>
+    <div class="row">
+        <input type="submit" class="round button login-button" value="Sign In"/>
+        <a class="round button login-button" href="/register">Register</a>
+    </div>
+</form>
+{% endblock %}

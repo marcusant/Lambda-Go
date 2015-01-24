@@ -8,11 +8,12 @@ import (
 )
 
 // Function that is called for a view
-type ViewFunc func(*http.Request) (error, string)
+type ViewFunc func(*http.Request, http.ResponseWriter) (error, string)
 
 var urlMap = map[string]ViewFunc{
 	"/":         views.HandleIndex,
 	"/register": views.HandleRegister,
+	"/login":    views.HandleLogin,
 }
 
 func main() {
@@ -37,7 +38,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		//TODO 404 page
 		panic("404 NOT YET IMPLEMENTED")
 	}
-	err, responseHtml := vfunc(r)
+	err, responseHtml := vfunc(r, w)
 	if err != nil { // 500, server dun goofed
 		//TODO 500 page
 		fmt.Println("500 at " + r.URL.String())

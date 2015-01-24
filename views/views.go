@@ -8,7 +8,7 @@ import (
 //Compile the templates on startup for a speed boost
 var indexTpl = pongo2.Must(pongo2.FromFile("templates/index.html"))
 
-func HandleIndex(r *http.Request) (error, string) {
+func HandleIndex(r *http.Request, w http.ResponseWriter) (error, string) {
 	rendered_index, err := indexTpl.Execute(pongo2.Context{
 	//Whatever context
 	})

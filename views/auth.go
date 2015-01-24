@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"crypto/sha256"
 	"encoding/base64"
+	"errors"
 	"fmt"
 	"github.com/flosch/pongo2"
 	"golang.org/x/crypto/pbkdf2"
@@ -18,8 +19,9 @@ import (
 )
 
 var registerTpl = pongo2.Must(pongo2.FromFile("templates/register.html"))
+var loginTpl = pongo2.Must(pongo2.FromFile("templates/login.html"))
 
-func HandleRegister(r *http.Request) (error, string) {
+func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 	if r.Method == "POST" {
 		username := r.PostFormValue("username")
 		password := r.PostFormValue("password")
@@ -67,7 +69,6 @@ func HandleRegister(r *http.Request) (error, string) {
 			}
 			return nil, rendered_tpl
 		} else {
-			// From django docs: <algorithm>$<iterations>$<salt>$<hash>
 			passentry := hashPasswordDefault(password)
 			col.Append(models.User{
 				Username:     username,
@@ -84,6 +85,79 @@ func HandleRegister(r *http.Request) (error, string) {
 		return err, ""
 	}
 	return nil, rendered_tpl
+}
+
+func HandleLogin(r *http.Request, w http.ResponseWriter) (error, string) {
+	if r.Method == "POST" {
+		username := r.PostFormValue("username")
+		password := r.PostFormValue("password")
+
+		var messages []string
+
+		coll, err := sql.Connection().Collection("users")
+		if err != nil {
+			//TODO we probably don't want to actually output the error in production
+			msg := fmt.Sprintf("SQL connection failed: %s", err)
+			rendered_tpl, _ := registerTpl.Execute(pongo2.Context{
+				"messages": [...]string{msg},
+			})
+			return nil, rendered_tpl
+		}
+
+		result := coll.Find(db.Cond{"username": username})
+		count, err := result.Count()
+		if err != nil || count < 1 {
+			messages = append(messages, "No user exists with username")
+		} else if count > 0 {
+			var user models.User
+			fmt.Println(user)
+			result.One(&user)
+
+			correctPass, _ := checkPassword(user, password)
+			if correctPass {
+				http.Redirect(w, r, "/", 302)
+				return nil, ""
+				// TODO give session
+			} else {
+				messages = append(messages, "Invalid password")
+			}
+		}
+
+		rendered_tpl, err := loginTpl.Execute(pongo2.Context{
+			"messages": messages,
+		})
+		if err != nil {
+			return err, ""
+		} else {
+			return nil, rendered_tpl
+		}
+
+	}
+	rendered_tpl, err := loginTpl.Execute(pongo2.Context{
+	//Whatever context
+	})
+	if err != nil {
+		return err, ""
+	}
+	return nil, rendered_tpl
+}
+
+// Checks if the specified plaintext password matches the user's password
+func checkPassword(user models.User, rawpass string) (bool, error) {
+	dollaSplit := strings.Split(user.Password, "$")
+	// From django docs: <algorithm>$<iterations>$<salt>$<hash>
+
+	algoritm := dollaSplit[0]
+	if algoritm != "pbkdf2_sha256" { // For right now, we only support this algorithm
+		return false, errors.New("Algorithm not supported")
+	}
+
+	iterations, _ := strconv.Atoi(dollaSplit[1])
+	salt := dollaSplit[2]
+
+	hashedInput := hashPassword(rawpass, salt, iterations, 32)
+
+	return hashedInput == user.Password, nil
 }
 
 // Creates a random base64 string of the specified length
@@ -108,5 +182,6 @@ func hashPasswordDefault(pass string) string {
 func hashPassword(pass string, salt string, iterations int, length int) string {
 	encpass := pbkdf2.Key([]byte(pass), []byte(salt), iterations, length, sha256.New)
 	hashstr := base64.StdEncoding.EncodeToString(encpass)
+	// From django docs: <algorithm>$<iterations>$<salt>$<hash>
 	return fmt.Sprintf("%s$%s$%s$%s", "pbkdf2_sha256", strconv.Itoa(iterations), salt, hashstr)
 }
