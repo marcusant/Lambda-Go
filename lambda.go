@@ -5,6 +5,7 @@ import (
 	"lambda.sx/marcus/lambdago/sql"
 	"lambda.sx/marcus/lambdago/views"
 	"net/http"
+	"strings"
 )
 
 // Function that is called for a view
@@ -37,7 +38,7 @@ func main() {
 
 // handler dispatches requests to their view or serves an error
 func handler(w http.ResponseWriter, r *http.Request) {
-	vfunc := urlMap[r.URL.String()]
+	vfunc := urlMap[strings.Split(strings.ToLower(r.URL.String()), "?")[0]]
 	if vfunc == nil { // 404, no view to handle request
 		//TODO 404 page
 		panic("404 NOT YET IMPLEMENTED")

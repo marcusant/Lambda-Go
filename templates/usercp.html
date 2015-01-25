@@ -60,11 +60,11 @@
                 {% if themes %}
                     <select style="max-width:150px;" id="themeselect">
                         {% for theme in themes %}
-                            <option value="{{ theme.name }}"
-                                    {% if user and user.ThemeName == theme.name %}
+                            <option value="{{ theme }}"
+                                    {% if user and user.ThemeName == theme %}
                                     selected
                                     {% endif %}
-                                    >{{ theme.display_name }}</option>
+                                    >{{ theme }}</option>
                         {% endfor %}
                     </select>
                 {% endif %}

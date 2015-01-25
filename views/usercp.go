@@ -20,7 +20,8 @@ func HandleUserCP(r *http.Request, w http.ResponseWriter) (error, string) {
 		return nil, ""
 	}
 	rendered_user_cp, err := usercpTpl.Execute(pongo2.Context{
-		"user": user,
+		"user":   user,
+		"themes": settings.Themes,
 	})
 	if err != nil {
 		return err, ""
