@@ -83,6 +83,8 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 				Username:     username,
 				Password:     passentry,
 				CreationDate: time.Now(),
+				ApiKey:       randStr(64),
+				ThemeName:    "material",
 			})
 			var user models.User
 			col.Find(db.Cond{"username": username}).One(&user)
@@ -197,7 +199,7 @@ func checkPassword(user models.User, rawpass string) (bool, error) {
 }
 
 // Creates a random base64 string of the specified length
-func genSalt(length int) string {
+func randStr(length int) string {
 	rb := make([]byte, length)
 	_, err := rand.Read(rb)
 
@@ -211,7 +213,7 @@ func genSalt(length int) string {
 
 // Hashes a password with a new generated salt and the default settings
 func hashPasswordDefault(pass string) string {
-	salt := genSalt(16)
+	salt := randStr(16)
 	return hashPassword(pass, salt, 12000, 32)
 }
 

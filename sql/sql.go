@@ -41,6 +41,9 @@ func createTables() {
 		"username VARCHAR(32) NOT NULL," +
 		"password VARCHAR(128) NOT NULL," +
 		"creation_date Date NOT NULL," +
+		"apikey VARCHAR(64) NOT NULL," +
+		"encryption_enabled BOOL NOT NULL," +
+		"theme_name VARCHAR(32) NOT NULL," +
 		"primary key(id)" +
 		")")
 }
