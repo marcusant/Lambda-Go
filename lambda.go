@@ -17,6 +17,7 @@ var urlMap = map[string]ViewFunc{
 	"/logout":        views.HandleLogout,
 	"/usercp":        views.HandleUserCP,
 	"/toggleencrypt": views.HandleToggleEncryption,
+	"/settheme":      views.HandleSetTheme,
 }
 
 func main() {

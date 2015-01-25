@@ -9,6 +9,8 @@ import (
 // KEEP SECRET!!!
 var SecretKey = "dongLyfe420"
 
+var Themes = [...]string{"material", "space"}
+
 var dbsettings = mysql.ConnectionURL{
 	Address:  db.Socket("/var/run/mysqld/mysqld.sock"),
 	Database: "lambda_go",
