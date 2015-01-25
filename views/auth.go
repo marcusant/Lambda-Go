@@ -91,7 +91,10 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 
 			session.Values["userid"] = user.ID
 			session.Save(r, w)
-			//TODO redirect user to home page
+
+			// Go home
+			http.Redirect(w, r, "/", 302)
+			return nil, ""
 		}
 	}
 	rendered_tpl, err := registerTpl.Execute(pongo2.Context{
