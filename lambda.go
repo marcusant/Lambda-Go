@@ -11,11 +11,12 @@ import (
 type ViewFunc func(*http.Request, http.ResponseWriter) (error, string)
 
 var urlMap = map[string]ViewFunc{
-	"/":         views.HandleIndex,
-	"/register": views.HandleRegister,
-	"/login":    views.HandleLogin,
-	"/logout":   views.HandleLogout,
-	"/usercp":   views.HandleUserCP,
+	"/":              views.HandleIndex,
+	"/register":      views.HandleRegister,
+	"/login":         views.HandleLogin,
+	"/logout":        views.HandleLogout,
+	"/usercp":        views.HandleUserCP,
+	"/toggleencrypt": views.HandleToggleEncryption,
 }
 
 func main() {
