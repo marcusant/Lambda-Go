@@ -12,13 +12,22 @@
             <li><a href="/about">About</a></li>
             <li><a href="#" data-dropdown="drop">Programs</a></li>
             <ul id="drop" class="f-dropdown" data-dropdown-content aria-hidden="true">
-                <li style="width:100%"><a href="/setup/sharex">ShareX</a></li>
+                <li style="width:100%"><a href="/setup/sharex"><i class="fa fa-windows"></i> ShareX</a></li>
+                <li style="width:100%"><a href="/setup/lambda"><i class="fa fa-linux"></i> Lambda</a></li>
             </ul>
         </ul>
 
         <!--Right section-->
         <ul class="right">
+            {% if user.ID > 0 %}
+                <li><a href="/p" style="font-size:16pt"><i class="fa fa-clipboard"></i></a></li>
+                <li><a href="/upload" style="font-size:16pt"><i class="fa fa-upload"></i></a></li>
+                <li><a href="/usercp" style="font-size:16pt"><i class="fa fa-cog"></i></a></li>
+                <li class="active"><a>{{ user.Username }}</a></li>
+                <li class="active"><a href="/logout"><i class="fa fa-sign-out" style="font-size:16px"></i></a></li>
+            {% else %}
                 <li class="active"><a href="/login">Sign In</a></li>
+            {% endif %}
         </ul>
     </section>
 </nav>

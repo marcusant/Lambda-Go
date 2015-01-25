@@ -2,6 +2,7 @@ package views
 
 import (
 	"github.com/flosch/pongo2"
+	"lambda.sx/marcus/lambdago/session"
 	"net/http"
 )
 
@@ -9,8 +10,9 @@ import (
 var indexTpl = pongo2.Must(pongo2.FromFile("templates/index.html"))
 
 func HandleIndex(r *http.Request, w http.ResponseWriter) (error, string) {
+	user := session.GetUser(r, w)
 	rendered_index, err := indexTpl.Execute(pongo2.Context{
-	//Whatever context
+		"user": user,
 	})
 	if err != nil {
 		return err, ""

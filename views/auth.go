@@ -7,8 +7,10 @@ import (
 	"errors"
 	"fmt"
 	"github.com/flosch/pongo2"
+	"github.com/gorilla/sessions"
 	"golang.org/x/crypto/pbkdf2"
 	"lambda.sx/marcus/lambdago/models"
+	"lambda.sx/marcus/lambdago/session"
 	"lambda.sx/marcus/lambdago/sql"
 	"net/http"
 	"regexp"
@@ -22,6 +24,12 @@ var registerTpl = pongo2.Must(pongo2.FromFile("templates/register.html"))
 var loginTpl = pongo2.Must(pongo2.FromFile("templates/login.html"))
 
 func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
+	session, err := session.Store.Get(r, "lambda")
+	if err == nil && !session.IsNew { //They're already logged in, take them to the home page
+		http.Redirect(w, r, "/", 302)
+		return nil, ""
+	}
+
 	if r.Method == "POST" {
 		username := r.PostFormValue("username")
 		password := r.PostFormValue("password")
@@ -69,12 +77,18 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 			}
 			return nil, rendered_tpl
 		} else {
+			//Add the user
 			passentry := hashPasswordDefault(password)
 			col.Append(models.User{
 				Username:     username,
 				Password:     passentry,
 				CreationDate: time.Now(),
 			})
+			var user models.User
+			col.Find(db.Cond{"username": username}).One(&user)
+
+			session.Values["userid"] = user.ID
+			session.Save(r, w)
 			//TODO redirect user to home page
 		}
 	}
@@ -88,6 +102,12 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 }
 
 func HandleLogin(r *http.Request, w http.ResponseWriter) (error, string) {
+	session, err := session.Store.Get(r, "lambda")
+	if err == nil && !session.IsNew { //They're already logged in, take them to the home page
+		http.Redirect(w, r, "/", 302)
+		return nil, ""
+	}
+
 	if r.Method == "POST" {
 		username := r.PostFormValue("username")
 		password := r.PostFormValue("password")
@@ -140,6 +160,18 @@ func HandleLogin(r *http.Request, w http.ResponseWriter) (error, string) {
 		return err, ""
 	}
 	return nil, rendered_tpl
+}
+
+func HandleLogout(r *http.Request, w http.ResponseWriter) (error, string) {
+	session, _ := session.Store.Get(r, "lambda")
+
+	// Tell the client to expire their session cookie
+	session.Options = &sessions.Options{MaxAge: -1}
+	session.Save(r, w)
+
+	// Go home
+	http.Redirect(w, r, "/", 302)
+	return nil, ""
 }
 
 // Checks if the specified plaintext password matches the user's password
