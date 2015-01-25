@@ -12,8 +12,7 @@ import (
 var Store = sessions.NewCookieStore([]byte(settings.SecretKey)) // TODO move to using a server-held store (redis?) with keys held by the client
 
 // Checks if a requester is logged in
-func IsAuthed(r *http.Request, w http.ResponseWriter) models.User {
-	var user models.User
+func IsAuthed(r *http.Request, w http.ResponseWriter) bool {
 	session, err := Store.Get(r, "lambda")
 	if err != nil {
 		return false

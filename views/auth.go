@@ -24,7 +24,6 @@ var registerTpl = pongo2.Must(pongo2.FromFile("templates/register.html"))
 var loginTpl = pongo2.Must(pongo2.FromFile("templates/login.html"))
 
 func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
-	session, err := session.Store.Get(r, "lambda")
 	if session.IsAuthed(r, w) {
 		http.Redirect(w, r, "/", 302)
 		return nil, ""
@@ -89,8 +88,9 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 			var user models.User
 			col.Find(db.Cond{"username": username}).One(&user)
 
-			session.Values["userid"] = user.ID
-			session.Save(r, w)
+			sess, _ := session.Store.Get(r, "lambda")
+			sess.Values["userid"] = user.ID
+			sess.Save(r, w)
 
 			// Go home
 			http.Redirect(w, r, "/", 302)
@@ -107,7 +107,6 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 }
 
 func HandleLogin(r *http.Request, w http.ResponseWriter) (error, string) {
-	session, err := session.Store.Get(r, "lambda")
 	if session.IsAuthed(r, w) {
 		http.Redirect(w, r, "/", 302)
 		return nil, ""
@@ -141,8 +140,9 @@ func HandleLogin(r *http.Request, w http.ResponseWriter) (error, string) {
 			correctPass, _ := checkPassword(user, password)
 			if correctPass {
 				// Give the user a session
-				session.Values["userid"] = user.ID
-				session.Save(r, w)
+				sess, _ := session.Store.Get(r, "lambda")
+				sess.Values["userid"] = user.ID
+				sess.Save(r, w)
 
 				// Go home
 				http.Redirect(w, r, "/", 302)

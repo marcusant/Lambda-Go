@@ -15,6 +15,7 @@ var urlMap = map[string]ViewFunc{
 	"/register": views.HandleRegister,
 	"/login":    views.HandleLogin,
 	"/logout":   views.HandleLogout,
+	"/usercp":   views.HandleUserCP,
 }
 
 func main() {

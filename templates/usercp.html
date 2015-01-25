@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}User Settings{% endblock %}
+
+{% block content %}
+    <div class="text-center login-area jumbo center-vertical icon-labeled">
+        <div class="top-icon"><i class="fa fa-cog"></i></div>
+        {% if messages %}
+            {% for message in messages %}
+                <div data-alert class="alert-box alert round" style="width:50vw;margin:auto">
+                    {{ message }}
+                </div>
+                <br>
+            {% endfor %}
+        {% endif %}
+        <div class="row">
+            <a href="/manageuploads">
+                <button class="small button login-button">Manage Uploads</button>
+            </a>
+            <a href="/toggleencrypt">
+                <button class="small button login-button">
+                    {% if user.EncryptionEnabled %}
+                        Disable encryption
+                    {% else %}
+                        Enable encryption
+                    {% endif %}
+                </button>
+            </a>
+            {% if user.is_superuser %}
+                <a href="/djadmindongLyfe420/">
+                    <button class="small button login-button">Admin Panel</button>
+                </a>
+                <a href="/admincp">
+                    <button class="small button login-button">Lambda Admin</button>
+                </a>
+            {% endif %}
+        </div>
+        <form>
+            <div class="row">
+
+                <h4>API Key:</h4>
+                <input style="text-align:center;" name="apikey" type="text" class="inputbox"
+                       value="{{ user.ApiKey }}" readonly/>
+
+                <p>Do not share your API key with anyone.</p>
+
+                <h4>Invite Codes:</h4>
+                {% if invites and invites.size > 0 %}
+                    {% for invite in invites %}
+                        {% if invite.valid %}
+                            <input name="invite" type="text" class="inputbox"
+                                   value="{{ invite.code }}" readonly/>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <label style="color: #808080;font-size: 14pt">No invites available</label><br>
+                {% endif %}
+
+                <h4>Theme:</h4>
+                {% if themes %}
+                    <select style="max-width:150px;" id="themeselect">
+                        {% for theme in themes %}
+                            <option value="{{ theme.name }}"
+                                    {% if user and user.ThemeName == theme.name %}
+                                    selected
+                                    {% endif %}
+                                    >{{ theme.display_name }}</option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="static/js/usercp.js"></script>
+{% endblock %}
