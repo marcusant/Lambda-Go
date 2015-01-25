@@ -25,7 +25,7 @@ var loginTpl = pongo2.Must(pongo2.FromFile("templates/login.html"))
 
 func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 	session, err := session.Store.Get(r, "lambda")
-	if err == nil && !session.IsNew { //They're already logged in, take them to the home page
+	if session.IsAuthed(r, w) {
 		http.Redirect(w, r, "/", 302)
 		return nil, ""
 	}
@@ -108,7 +108,7 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 
 func HandleLogin(r *http.Request, w http.ResponseWriter) (error, string) {
 	session, err := session.Store.Get(r, "lambda")
-	if err == nil && !session.IsNew { //They're already logged in, take them to the home page
+	if session.IsAuthed(r, w) {
 		http.Redirect(w, r, "/", 302)
 		return nil, ""
 	}
