@@ -135,9 +135,13 @@ func HandleLogin(r *http.Request, w http.ResponseWriter) (error, string) {
 
 			correctPass, _ := checkPassword(user, password)
 			if correctPass {
+				// Give the user a session
+				session.Values["userid"] = user.ID
+				session.Save(r, w)
+
+				// Go home
 				http.Redirect(w, r, "/", 302)
 				return nil, ""
-				// TODO give session
 			} else {
 				messages = append(messages, "Invalid password")
 			}
