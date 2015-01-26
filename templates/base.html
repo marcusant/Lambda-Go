@@ -15,7 +15,7 @@
     {% endblock %}
     {% block head %}{% endblock %}
     {% block themecss %}
-        {% if user.ID == 0 %}
+        {% if user.ID == 0 or user == nil %}
             <link href="/static/themes/material/material.css" rel="stylesheet" />
         {% elif user.ThemeName != "space" and user.ThemeName != "default" %}
             <link href="/static/themes/{{ user.ThemeName }}/{{ user.ThemeName }}.css" rel="stylesheet" />
@@ -34,7 +34,7 @@
     {% block content %}{% endblock %}
     {% include "bodyend.html" %}
     {% block themejs %}
-        {% if user.ID == 0 %}
+        {% if user.ID == 0 or user == nil %}
             <script src="/static/themes/material/material.js" async defer></script>
         {% elif user.ThemeName != "space" and user.ThemeName != "default" %}
             <script src="/static/themes/{{ user.ThemeName }}/{{ user.ThemeName }}.js" async defer></script>

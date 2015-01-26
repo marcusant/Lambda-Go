@@ -19,7 +19,7 @@
 
         <!--Right section-->
         <ul class="right">
-            {% if user.ID > 0 %}
+            {% if user != nil and user.ID > 0 %}
                 <li><a href="/p" style="font-size:16pt"><i class="fa fa-clipboard"></i></a></li>
                 <li><a href="/upload" style="font-size:16pt"><i class="fa fa-upload"></i></a></li>
                 <li><a href="/usercp" style="font-size:16pt"><i class="fa fa-cog"></i></a></li>
