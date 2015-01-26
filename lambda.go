@@ -21,6 +21,7 @@ var urlMap = map[string]ViewFunc{
 	"/settheme":      views.HandleSetTheme,
 	"/keycheck":      views.HandleVerifyKey,
 	"/getkey":        views.HandleGetKey,
+	"/upload":        views.HandleUpload,
 }
 
 func main() {
