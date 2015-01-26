@@ -183,6 +183,66 @@ func HandleLogout(r *http.Request, w http.ResponseWriter) (error, string) {
 	return nil, ""
 }
 
+// TODO make this API legacy, and have one that returns json
+func HandleGetKey(r *http.Request, w http.ResponseWriter) (error, string) {
+	if r.Method != "POST" {
+		return nil, "!FAIL!: GET not supported"
+	}
+
+	username := r.PostFormValue("user")
+	password := r.PostFormValue("pass")
+
+	if username == "" {
+		return nil, "!FAIL!: No username POSTed"
+	}
+	if password == "" {
+		return nil, "!FAIL!: No password POSTed"
+	}
+
+	coll, err := sql.Connection().Collection("users")
+	if err != nil {
+		return nil, "!FAIL!: SQL error"
+	}
+
+	result := coll.Find(db.Cond{"username": username})
+
+	count, err := result.Count()
+	if err != nil || count < 1 {
+		return nil, "!FAIL!: No user with username"
+	}
+
+	var user models.User
+	result.One(&user)
+	correctPass, _ := checkPassword(user, password)
+	if correctPass {
+		return nil, user.ApiKey
+	} else {
+		return nil, "!FAIL!: Bad password"
+	}
+}
+
+// TODO make this API legacy, and have one that returns json
+func HandleVerifyKey(r *http.Request, w http.ResponseWriter) (error, string) {
+	if r.Method != "POST" {
+		return nil, "!FAIL!: GET not supported"
+	}
+
+	key := r.PostFormValue("key")
+	if key == "" {
+		return nil, "!FAIL!: No key POSTed"
+	}
+
+	coll, err := sql.Connection().Collection("users")
+	if err != nil {
+		return nil, "!FAIL!: SQL error"
+	}
+
+	result := coll.Find(db.Cond{"apikey": key})
+
+	count, err := result.Count()
+	return nil, strconv.FormatBool(err == nil && count > 0)
+}
+
 // Checks if the specified plaintext password matches the user's password
 func checkPassword(user models.User, rawpass string) (bool, error) {
 	dollaSplit := strings.Split(user.Password, "$")

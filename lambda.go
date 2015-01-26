@@ -19,6 +19,8 @@ var urlMap = map[string]ViewFunc{
 	"/usercp":        views.HandleUserCP,
 	"/toggleencrypt": views.HandleToggleEncryption,
 	"/settheme":      views.HandleSetTheme,
+	"/keycheck":      views.HandleVerifyKey,
+	"/getkey":        views.HandleGetKey,
 }
 
 func main() {
