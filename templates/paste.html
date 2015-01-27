@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block head_after_theme %}
+    <link href='/static/css/pages/paste.css' rel='stylesheet' type='text/css'/>
+    <link href='/static/css/noscroll.css' rel='stylesheet' type='text/css'/>
+{% endblock %}
+{% block title %}Paste{% endblock %}
+
+{% block content %}
+    <button id="pasteButton" class="round button" type="submit">Submit</button>
+    <textarea id="pasteArea" class="prettyprint paste-area" spellcheck="false"></textarea>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script data-cfasync="false" src="//cdnjs.cloudflare.com/ajax/libs/sjcl/1.0.0/sjcl.min.js"></script>
+<script data-cfasync="false" src="/static/js/paste.coffee.js/paste.js"></script>
+{% endblock %}

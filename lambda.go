@@ -22,6 +22,8 @@ var urlMap = map[string]ViewFunc{
 	"/keycheck":      views.HandleVerifyKey,
 	"/getkey":        views.HandleGetKey,
 	"/upload":        views.HandleUpload,
+	"/paste":         views.HandlePaste,
+	"/p":             views.HandlePaste,
 }
 
 func main() {

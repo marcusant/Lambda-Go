@@ -3,10 +3,14 @@ package views
 import (
 	"encoding/json"
 	"io"
+	"lambda.sx/marcus/lambdago/models"
+	"lambda.sx/marcus/lambdago/sql"
 	"math/rand"
 	"net/http"
 	"os"
 	"strings"
+	"time"
+	"upper.io/db"
 )
 
 var allowedTypes = [...]string{
@@ -47,6 +51,39 @@ func HandleUploadAPI(r *http.Request, w http.ResponseWriter) (error, string) {
 		b, _ := json.Marshal(response)
 		return nil, string(b)
 	}
+
+	apikey := r.FormValue("apikey")
+	if apikey == "" {
+		response := uploadResponse{
+			false,
+			[]file{},
+			[]string{"No api key POSTed"},
+		}
+		b, _ := json.Marshal(response)
+		return nil, string(b)
+	}
+	userCol, err := sql.Connection().Collection("users")
+	if err != nil {
+		response := uploadResponse{
+			false,
+			[]file{},
+			[]string{"SQL error"},
+		}
+		b, _ := json.Marshal(response)
+		return nil, string(b)
+	}
+	var user models.User
+	userCol.Find(db.Cond{"apikey": apikey}).One(&user)
+	if user.ID == 0 {
+		response := uploadResponse{
+			false,
+			[]file{},
+			[]string{"Invalid API key"},
+		}
+		b, _ := json.Marshal(response)
+		return nil, string(b)
+	}
+
 	upFile, header, err := r.FormFile("file")
 	if err != nil || upFile == nil {
 		upFile, header, err = r.FormFile("files[]") // This is legacy!
@@ -117,6 +154,16 @@ func HandleUploadAPI(r *http.Request, w http.ResponseWriter) (error, string) {
 		b, _ := json.Marshal(response)
 		return nil, string(b)
 	}
+
+	col, _ := sql.Connection().Collection("files")
+	col.Append(models.File{
+		Owner:      user.ID,
+		Name:       filename,
+		Extension:  "." + extension,
+		UploadDate: time.Now(),
+		Encrypted:  false,
+		LocalName:  localname,
+	})
 
 	response := uploadResponse{
 		true,

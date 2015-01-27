@@ -46,4 +46,22 @@ func createTables() {
 		"theme_name VARCHAR(32) NOT NULL," +
 		"primary key(id)" +
 		")")
+	driver.Query("CREATE TABLE IF NOT EXISTS files (" +
+		"id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT," +
+		"owner MEDIUMINT UNSIGNED NOT NULL," +
+		"name VARCHAR(16) NOT NULL," +
+		"extension VARCHAR(4) NOT NULL," +
+		"upload_date Date NOT NULL," +
+		"encrypted BOOL NOT NULL," +
+		"local_name VARCHAR(128) NOT NULL," +
+		"primary key(id)" +
+		")")
+	driver.Query("CREATE TABLE IF NOT EXISTS pastes (" +
+		"id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT," +
+		"owner MEDIUMINT UNSIGNED NOT NULL," +
+		"name VARCHAR(16) NOT NULL," +
+		"upload_date Date NOT NULL," +
+		"content_json VARCHAR(50000) NOT NULL," +
+		"primary key(id)" +
+		")")
 }
