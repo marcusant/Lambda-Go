@@ -26,6 +26,7 @@ func MigrateDB() {
 		Password: "lambda", // CHANGE FOR PRODUCTION
 	}
 	djsess, err := db.Open(mysql.Adapter, dbsettings)
+	defer djsess.Close()
 	if err != nil {
 		log.Fatalf("SQL connection failed! %q\n", err)
 		return
@@ -43,7 +44,6 @@ func MigrateDB() {
 			ThemeName         string `db:"theme_name"`
 			ApiKey            string `db:"apikey"`
 		}
-
 		djusers, _ := djsess.Collection("auth_user")
 		djlambdausers, _ := djsess.Collection("djlambda_lambdauser")
 
@@ -65,5 +65,51 @@ func MigrateDB() {
 			userCol, _ := sql.Connection().Collection("users")
 			userCol.Append(gouser)
 		}
+
+		type DjLambdaImage struct {
+			ID         int       `db:"id"`
+			OwnerID    int       `db:"owner"`
+			Name       string    `db:"name"`
+			Extension  string    `db:"extension"`
+			UploadDate time.Time `db:"upload_date"`
+			Encrypted  bool      `db:"encrypted"`
+		}
+		djimages, _ := djsess.Collection("djlambda_image")
+		var djimagelist []DjLambdaImage
+		djimages.Find(db.Cond{}).All(&djimagelist)
+		for _, i := range djimagelist {
+			goimage := models.File{
+				Owner:      uint(i.OwnerID),
+				Name:       i.Name,
+				Extension:  i.Extension,
+				UploadDate: i.UploadDate,
+				Encrypted:  i.Encrypted,
+				LocalName:  "N/A",
+			}
+			fileCol, _ := sql.Connection().Collection("files")
+			fileCol.Append(goimage)
+		}
+
+		type DjLambdaPaste struct {
+			ID         int       `db:"id"`
+			OwnerID    int       `db:"owner"`
+			Name       string    `db:"name"`
+			ReqJson    string    `db:"req_json"`
+			UploadDate time.Time `db:"creation_date"`
+		}
+		djpastes, _ := djsess.Collection("djlambda_paste")
+		var djpastelist []DjLambdaPaste
+		djpastes.Find(db.Cond{}).All(&djpastelist)
+		for _, p := range djpastelist {
+			gopaste := models.Paste{
+				Owner:       uint(p.OwnerID),
+				Name:        p.Name,
+				ContentJson: p.ReqJson,
+				UploadDate:  p.UploadDate,
+			}
+			pasteCol, _ := sql.Connection().Collection("pastes")
+			pasteCol.Append(gopaste)
+		}
+
 	}
 }
