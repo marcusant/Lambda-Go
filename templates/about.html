@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+    <div class="round text-center jumbo icon-labeled">
+        <div class="top-icon">λ</div>
+        <p style="padding-left:20px;padding-right:20px">
+        Lambda is an image and video hosting service. We try to be simple and unobtrusive,
+        leaving the images as the centerpiece instead of ads and other nonsense. We also give really short links.
+        </p>
+    </div>
+    <div class="round text-center jumbo icon-labeled">
+        <div class="top-icon"><i class="fa fa-paperclip"></i></div>
+        <p style="padding-left:20px;padding-right:20px">
+            Lambda can be accessed by (and linked through) the following domains:<br>
+            <a href="https://λ.pw/">λ.pw</a><br>
+            <a href="https://lambda.sx/">lambda.sx</a>
+        </p>
+    </div>
+    <div class="round text-center jumbo icon-labeled">
+        <div class="top-icon"><i class="fa fa-cloud-upload"></i></div>
+        <p style="padding-left:20px;padding-right:20px">
+            Currently, Lambda supports <i>png</i>, <i>gif</i>, <i>jpg</i>, <i>mp3</i>, <i>ogg</i>, <i>opus</i>, <i>mp4</i>, and <i>webm</i> filetypes.
+            <br>The max filesize allowed is 20MiB.
+        </p>
+    </div>
+    <div class="round text-center jumbo icon-labeled">
+        <div class="top-icon"><i class="fa fa-lock"></i></div>
+        <p style="padding-left:20px;padding-right:20px">
+        Lambda's paste service is always encrypted. All pastes are encrypted on the client end before being submitted for
+        storage.<br />The paste service makes use of the <a href="https://crypto.stanford.edu/sjcl/">Stanford JavaScript Crypto Library</a> for client-sided crypto.
+        </p>
+        <p style="padding-left:20px;padding-right:20px">
+        Keys are not stored anywhere. Keeping the links to your encrypted content is the only way to ensure you (or whoever it is shared with) can retrieve it.
+        </p>
+    </div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Uploads{% endblock %}
+
+{% block head %}
+    <link href='/static/css/pages/manageuploads.css' rel='stylesheet' type='text/css'/>
+{% endblock %}
+
+{% block content %}
+    <div class="round text-center jumbo center-vertical" style="max-width:700px;max-height:60vh;overflow:auto;">
+        {% if images or pastes %}
+            <table class="table" style="max-width:inherit;align-self:center;margin:auto;">
+                {% if images %}
+                {% for i in images %}
+                    <tr>
+                        {% if i.Encrypted %}
+                            <td class="telement" style="text-align:center; font-size:16pt;"><i class="fa fa-lock"></i></td>
+                            <td class="telement"><a href="/{{ i.Name }}" target="_blank">
+                            {{ i.Name }}{{ i.Extension }} (ENCRYPTED)</a></td>
+                        {% else %}
+                            <td class="telement" style="text-align:center">
+                            {% if i.Extension in img_extensions %}
+                                <img style="max-height: 100px;max-width: 150px; margin: auto;" src="/{{ i.Name }}">
+                            {% else %}
+                                <i class="fa fa-play"></i>
+                            {% endif %}
+                             </td>
+                            <td class="telement"><a href="/{{ i.Name }}" target="_blank">
+                            {{ i.Name }}{{ i.Extension }}</a></td>
+                        {% endif %}
+                        <td class="telement">{{ i.LocalName }}</td>
+                        <td class="telement"><a href="/delete?file={{ i.Name }}"><i
+                                class="fa fa-trash"></i></a></td>
+                    </tr>
+                {% endfor %}
+                {% endif %}
+                {% if pastes %}
+                    {% for p in pastes %}
+                    <tr>
+                        <td class="telement" style="text-align:center; font-size:16pt;"><i class="fa fa-lock"></i> <i class="fa fa-clipboard"></i></td>
+                        <td class="telement"><a href="/{{ p.Name }}" target="_blank">{{ p.Name }} (ENCRYPTED PASTE)</a></td>
+                        <td class="telement">{{ p.UploadDate }}</td>
+                        <td class="telement"><a href="/delete?file={{ p.Name }}"><i
+                                class="fa fa-trash"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+        {% else %}
+            You haven't uploaded any files! :(
+        {% endif %}
+    </div>
+{% endblock %}

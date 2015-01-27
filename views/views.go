@@ -12,6 +12,7 @@ import (
 
 // Compile the templates on startup for a speed boost
 var indexTpl = pongo2.Must(pongo2.FromFile("templates/index.html"))
+var aboutTpl = pongo2.Must(pongo2.FromFile("templates/about.html"))
 var fourohfourTpl = pongo2.Must(pongo2.FromFile("templates/404.html"))
 
 func HandleIndex(r *http.Request, w http.ResponseWriter) (error, string) {
@@ -23,6 +24,17 @@ func HandleIndex(r *http.Request, w http.ResponseWriter) (error, string) {
 		return err, ""
 	}
 	return nil, rendered_index
+}
+
+func HandleAbout(r *http.Request, w http.ResponseWriter) (error, string) {
+	user := session.GetUser(r, w)
+	rendered_about, err := aboutTpl.Execute(pongo2.Context{
+		"user": user,
+	})
+	if err != nil {
+		return err, ""
+	}
+	return nil, rendered_about
 }
 
 // Try to find a paste or image, or serve 404
