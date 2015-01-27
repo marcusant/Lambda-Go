@@ -17,15 +17,6 @@
             <a href="/manageuploads">
                 <button class="small button login-button">Manage Uploads</button>
             </a>
-            <a href="/toggleencrypt">
-                <button class="small button login-button">
-                    {% if user.EncryptionEnabled %}
-                        Disable encryption
-                    {% else %}
-                        Enable encryption
-                    {% endif %}
-                </button>
-            </a>
             {% if user.is_superuser %}
                 <a href="/djadmindongLyfe420/">
                     <button class="small button login-button">Admin Panel</button>
