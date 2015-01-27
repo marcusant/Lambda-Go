@@ -2,9 +2,12 @@ package views
 
 import (
 	"github.com/flosch/pongo2"
+	"lambda.sx/marcus/lambdago/models"
 	"lambda.sx/marcus/lambdago/session"
+	"lambda.sx/marcus/lambdago/sql"
 	"net/http"
 	"strings"
+	"upper.io/db"
 )
 
 // Compile the templates on startup for a speed boost
@@ -35,6 +38,16 @@ func HandleDefault(r *http.Request, w http.ResponseWriter) (error, string) {
 			return nil, ""
 		}
 	}
+
+	col, _ := sql.Connection().Collection("pastes")
+	result := col.Find(db.Cond{"name": url})
+	cnt, err := result.Count()
+	if err == nil && cnt > 0 {
+		var paste models.Paste
+		result.One(&paste)
+		return HandleViewPaste(r, w, paste.ContentJson)
+	}
+
 	user := session.GetUser(r, w)
 	rendered_404, err := fourohfourTpl.Execute(pongo2.Context{
 		"user": user,

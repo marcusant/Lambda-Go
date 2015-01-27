@@ -10,6 +10,7 @@ import (
 )
 
 var pasteTpl = pongo2.Must(pongo2.FromFile("templates/paste.html"))
+var viewPasteTpl = pongo2.Must(pongo2.FromFile("templates/viewpaste.html"))
 
 func HandlePaste(r *http.Request, w http.ResponseWriter) (error, string) {
 	user := session.GetUser(r, w)
@@ -39,4 +40,11 @@ func HandlePaste(r *http.Request, w http.ResponseWriter) (error, string) {
 		return nil, pasteName
 	}
 
+}
+
+func HandleViewPaste(r *http.Request, w http.ResponseWriter, json string) (error, string) {
+	renderedViewPaste, _ := viewPasteTpl.Execute(pongo2.Context{
+		"content": json,
+	})
+	return nil, renderedViewPaste
 }

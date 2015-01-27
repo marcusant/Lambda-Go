@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block head_after_theme %}<link href='/static/css/pages/paste.css' rel='stylesheet' type='text/css'/>{% endblock %}
+{% block title %}Paste{% endblock %}
+
+{% block defaultcss %}
+<link href='//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.0/css/normalize.min.css' rel='stylesheet' type='text/css'/>
+<link href='//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.0/css/foundation.min.css' rel='stylesheet' type='text/css'/>
+{% endblock %}
+
+{% block content %}
+    <pre id="pasteArea" style="background-color: transparent; overflow-x: auto; overflow-y: auto" class="prettyprint paste-view-area">
+        {% autoescape on %}
+        {{ content }}
+        {% endautoescape %}
+    </pre>
+{% endblock %}
+
+{% block scripts %}
+<script data-cfasync="false" src="//cdnjs.cloudflare.com/ajax/libs/sjcl/1.0.0/sjcl.min.js"></script>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?autoload=false&skin=desert"></script>
+<script data-cfasync="false" src="/static/js/viewpaste.coffee.js/viewpaste.js"></script>
+{% endblock %}
