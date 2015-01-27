@@ -45,8 +45,7 @@ func main() {
 func handler(w http.ResponseWriter, r *http.Request) {
 	vfunc := urlMap[strings.Split(strings.ToLower(r.URL.String()), "?")[0]]
 	if vfunc == nil { // 404, no view to handle request
-		//TODO 404 page
-		panic("404 NOT YET IMPLEMENTED")
+		vfunc = views.HandleDefault
 	}
 	err, responseHtml := vfunc(r, w)
 	if err != nil { // 500, server dun goofed
