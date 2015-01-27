@@ -189,6 +189,12 @@ func genFilename() string {
 				e = true
 			}
 		}
+		// Check if paste exists with name
+		col, _ := sql.Connection().Collection("pastes")
+		pasteNum, _ := col.Find(db.Cond{"name": filename}).Count()
+		if pasteNum > 0 {
+			e = true
+		}
 		if !e {
 			exists = false
 		}
