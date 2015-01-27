@@ -7,6 +7,7 @@ import (
 	"lambda.sx/marcus/lambdago/settings"
 	"lambda.sx/marcus/lambdago/sql"
 	"net/http"
+	"os"
 	"strings"
 	"upper.io/db"
 )
@@ -70,6 +71,38 @@ func HandleToggleEncryption(r *http.Request, w http.ResponseWriter) (error, stri
 
 	// Bring back to user cp
 	http.Redirect(w, r, "/usercp", 302)
+	return nil, ""
+}
+
+func HandleDelete(r *http.Request, w http.ResponseWriter) (error, string) {
+	user := session.GetUser(r, w)
+	if user.ID == 0 { // Not logged in
+		http.Redirect(w, r, "/login", 302)
+		return nil, ""
+	}
+
+	filename := r.FormValue("file")
+	if filename == "" {
+		return nil, "No filename sent!"
+	}
+	col, _ := sql.Connection().Collection("files")
+	var file models.File
+	result := col.Find(db.Cond{"owner": user.ID, "name": filename})
+	result.One(&file)
+	if file.ID == 0 {
+		// Try to find a paste
+		col, _ := sql.Connection().Collection("pastes")
+		result = col.Find(db.Cond{"owner": user.ID, "name": filename})
+		result.One(&file)
+		if file.ID == 0 {
+			return nil, "File not found!"
+		}
+	}
+	os.Remove("uploads/" + file.Name + file.Extension)
+	result.Remove()
+
+	// Bring back to manage uploads
+	http.Redirect(w, r, "/manageuploads", 302)
 	return nil, ""
 }
 

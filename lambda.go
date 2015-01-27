@@ -26,6 +26,7 @@ var urlMap = map[string]ViewFunc{
 	"/p":             views.HandlePaste,
 	"/about":         views.HandleAbout,
 	"/manageuploads": views.HandleManageUploads,
+	"/delete":        views.HandleDelete,
 }
 
 func main() {
