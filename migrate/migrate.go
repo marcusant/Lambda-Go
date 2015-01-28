@@ -27,11 +27,11 @@ func MigrateDB() {
 		Password: settings.DBSettings().Password,
 	}
 	djsess, err := db.Open(mysql.Adapter, dbsettings)
-	defer djsess.Close()
 	if err != nil {
 		log.Fatalf("SQL connection failed! %q\n", err)
 		return
 	} else {
+		defer djsess.Close()
 		type DjUser struct {
 			ID         int       `db:"id"`
 			Password   string    `db:"password"`
