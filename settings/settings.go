@@ -1,6 +1,7 @@
 package settings
 
 import (
+	"io/ioutil"
 	"upper.io/db"
 	"upper.io/db/mysql"
 )
@@ -20,4 +21,11 @@ var dbsettings = mysql.ConnectionURL{
 
 func DBSettings() mysql.ConnectionURL {
 	return dbsettings
+}
+
+func Init() {
+	sqlInfoContents, err := ioutil.ReadFile("../mysqlauth")
+	if err == nil {
+		dbsettings.Password = string(sqlInfoContents)
+	}
 }
