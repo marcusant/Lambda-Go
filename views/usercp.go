@@ -45,7 +45,7 @@ func HandleManageUploads(r *http.Request, w http.ResponseWriter) (error, string)
 
 	fileCol, _ := sql.Connection().Collection("files")
 	var files []models.File
-	fileCol.Find(db.Cond{"owner": user.ID}).Limit(10).All(&files)
+	fileCol.Find(db.Cond{"owner": user.ID}).Sort("-upload_date").Limit(10).All(&files)
 
 	rendered_manage_uploads, err := manageUploadsTpl.Execute(pongo2.Context{
 		"user":           user,
