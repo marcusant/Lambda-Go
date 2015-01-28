@@ -29,6 +29,8 @@ var urlMap = map[string]ViewFunc{
 	"/about":         views.HandleAbout,
 	"/manageuploads": views.HandleManageUploads,
 	"/delete":        views.HandleDelete,
+	"/setup/lambda":  views.HandleSetupLambda,
+	"/setup/sharex":  views.HandleSetupSharex,
 }
 
 func main() {

@@ -1,0 +1,27 @@
+{% extends "../base.html" %}
+
+{% block title %}Setup With ShareX{% endblock %}
+
+{% block content %}
+        <div class="jumbo" style="margin-top:15px;margin-bottom:15px">
+        <div style="font-size: 24pt; text-align: center;"><i class="fa fa-info-circle"></i>  Lambda Setup Guide (Linux)</div>
+        <hr>
+        <div style="font-size: 18pt; font-variant: small-caps"><i class="fa fa-bug"></i>  support</div>
+        <hr>
+            The Lambda program is only tested on Arch Linux. It should work on other distributions, but you're on your own there.
+        <hr>
+        <div style="font-size: 18pt; font-variant: small-caps"><i class="fa fa-cloud-download"></i>  getting lambda</div>
+        <hr>
+            Because I already package dependencies, the install process for Lambda is pretty simple.<br>
+            Just download Lambda from the
+            <a href="http://lambda.sx/app/lambda-v0-linux-full.tar.gz">official download link</a>
+            and extract it either using your favorite archiving tool or with the command "tar -xzvf lambda-v*.tar.gz".
+        <hr>
+        <div style="font-size: 18pt; font-variant: small-caps"><i class="fa fa-cog"></i>  running lambda</div>
+        <hr>
+            Lambda doesn't have an installer, you just run it. In order to run Lambda, just double click it or run it with a terminal.
+            Lambda will show up in the system tray (we currently have no plans to support window managers without a system tray).
+            <br><br>
+            If you are unable to run it because of a permissions issue, run "chmod 755 lambda" from the directory that lambda is in.
+        </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "../base.html" %}
+
+{% block title %}Setup With ShareX{% endblock %}
+
+{% block content %}
+        <div class="jumbo" style="margin-top:15px;margin-bottom:15px">
+        <div style="font-size: 24pt; text-align: center;"><i class="fa fa-info-circle"></i>         ShareX Setup Guide</div>
+        <hr>
+        <div style="font-size: 18pt; font-variant: small-caps"><i class="fa fa-clipboard"></i> copying lambda config</div>
+        <hr>
+
+            Use CTRL+C to copy the contents of the following text area to the clipboard.
+            You will need this in your clipboard for ShareX to recognize it.
+
+            <textarea style="height: 200px;margin-top:10px">
+{
+  "Name": "Lambda",
+  "RequestType": "POST",
+  "RequestURL": "https://lambda.sx/upload",
+  "FileFormName": "files[]",
+  "Arguments": {
+    "apikey": "{{ user.lambdauser.apikey }}"
+  },
+  "ResponseType": "Text",
+  "RegexList": [
+    "\"url\": \"(.*?)\""
+  ],
+  "URL": "https://λ.pw/$1,1$",
+  "ThumbnailURL": "",
+  "DeletionURL": ""
+}</textarea>
+
+        <hr>
+        <div style="font-size: 18pt; font-variant: small-caps"><i class="fa fa-pencil"></i>          creating a custom host</div>
+        <hr>
+        From the main ShareX window, click Destinations from the left-hand tab, and then click "Destination Settings."
+            On the left-hand pane, scroll all the way down to "Custom uploaders" and select that. In the form that
+            appears, click Import, and then From clipboard. You'll see a new option added in the list above the Import
+            button called "Lambda". Your API key should be loaded in the table to the right. Lambda is now installed.
+        <hr>
+        <div style="font-size: 18pt; font-variant: small-caps"><i class="fa fa-check"></i> setting lambda as default</div>
+        <hr>
+        With Lambda installed, select Lambda from the drop-down menus for Image uploader and File uploader. You can click
+        the Test buttons for either of them to ensure that it is working. These tests will upload the ShareX logo.
+        <br/>
+        With Lambda now set as default, you can now upload freely using your assigned hotkeys. Enjoy!
+        </div>
+{% endblock %}
