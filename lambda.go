@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"lambda.sx/marcus/lambdago/migrate"
 	"lambda.sx/marcus/lambdago/settings"
 	"lambda.sx/marcus/lambdago/sql"
 	"lambda.sx/marcus/lambdago/views"
@@ -37,7 +36,6 @@ func main() {
 	settings.Init()
 	// Start up SQL connection
 	sql.Init()
-	migrate.MigrateDB()
 
 	// Create a static server for serving things in the static/ directory
 	staticServer := http.FileServer(http.Dir("static"))
