@@ -67,5 +67,6 @@ func HandleDefault(r *http.Request, w http.ResponseWriter) (error, string) {
 	if err != nil {
 		return err, ""
 	}
+	w.WriteHeader(404)
 	return nil, rendered_404
 }
