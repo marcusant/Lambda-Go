@@ -28,4 +28,8 @@ func Init() {
 	if err == nil {
 		dbsettings.Password = string(sqlInfoContents)
 	}
+	secretKey, err := ioutil.ReadFile("../secretkey")
+	if err == nil {
+		SecretKey = secretKey
+	}
 }
