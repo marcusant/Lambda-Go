@@ -30,6 +30,6 @@ func Init() {
 	}
 	secretKey, err := ioutil.ReadFile("../secretkey")
 	if err == nil {
-		SecretKey = secretKey
+		SecretKey = string(secretKey)
 	}
 }
