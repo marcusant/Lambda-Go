@@ -3,6 +3,7 @@ package migrate
 import (
 	gsql "database/sql"
 	"lambda.sx/marcus/lambdago/models"
+	"lambda.sx/marcus/lambdago/settings"
 	"lambda.sx/marcus/lambdago/sql"
 	"log"
 	"time"
@@ -23,7 +24,7 @@ func MigrateDB() {
 		Address:  db.Socket("/var/run/mysqld/mysqld.sock"),
 		Database: "djlambda",
 		User:     "lambda",
-		Password: "lambda", // CHANGE FOR PRODUCTION
+		Password: settings.DBSettings().Password,
 	}
 	djsess, err := db.Open(mysql.Adapter, dbsettings)
 	defer djsess.Close()
@@ -44,7 +45,10 @@ func MigrateDB() {
 			ThemeName         string `db:"theme_name"`
 			ApiKey            string `db:"apikey"`
 		}
-		djusers, _ := djsess.Collection("auth_user")
+		djusers, err := djsess.Collection("auth_user")
+		if err != nil {
+			return // There was no django database with users, let's just bail out
+		}
 		djlambdausers, _ := djsess.Collection("djlambda_lambdauser")
 
 		var djlambdauserlist []DjLambdaUser
