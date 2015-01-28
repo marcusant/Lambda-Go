@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"lambda.sx/marcus/lambdago/migrate"
+	"lambda.sx/marcus/lambdago/settings"
 	"lambda.sx/marcus/lambdago/sql"
 	"lambda.sx/marcus/lambdago/views"
 	"net/http"
@@ -31,6 +32,7 @@ var urlMap = map[string]ViewFunc{
 }
 
 func main() {
+	settings.Init()
 	// Start up SQL connection
 	sql.Init()
 	migrate.MigrateDB()
