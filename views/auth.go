@@ -10,7 +10,9 @@ import (
 	"github.com/gorilla/sessions"
 	"golang.org/x/crypto/pbkdf2"
 	"lambda.sx/marcus/lambdago/models"
+	"lambda.sx/marcus/lambdago/recaptcha"
 	"lambda.sx/marcus/lambdago/session"
+	"lambda.sx/marcus/lambdago/settings"
 	"lambda.sx/marcus/lambdago/sql"
 	"net/http"
 	"regexp"
@@ -33,6 +35,9 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 		username := r.PostFormValue("username")
 		password := r.PostFormValue("password")
 		passwordTwo := r.PostFormValue("password2")
+		recaptchaResponse := r.PostFormValue("g-recaptcha-response")
+
+		recaptchaSuccess := recaptcha.CheckRecaptcha(settings.RecaptchaPrivateKey, recaptchaResponse)
 
 		col, err := sql.Connection().Collection("users")
 
@@ -40,15 +45,21 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 			//TODO we probably don't want to actually output the error in production
 			msg := fmt.Sprintf("SQL connection failed: %s", err)
 			rendered_tpl, _ := registerTpl.Execute(pongo2.Context{
-				"messages": [...]string{msg},
+				"messages":         [...]string{msg},
+				"recaptcha_public": settings.RecaptchaPublicKey,
 			})
 			return nil, rendered_tpl
+		}
+
+		var messages []string
+
+		if !recaptchaSuccess {
+			messages = append(messages, "Invalid captcha")
 		}
 
 		//Validate username input
 		usernameLength := len([]rune(username))
 		re := regexp.MustCompile("^[a-zA-Z0-9_]*$") //alphanumeric test
-		var messages []string
 		if usernameLength < 4 || !re.MatchString(username) {
 			messages = append(messages, "Usernames must be longer than 3 characters, alphanumeric, and have no spaces")
 		} else {
@@ -69,7 +80,8 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 
 		if len(messages) > 0 { //We had an error
 			rendered_tpl, err := registerTpl.Execute(pongo2.Context{
-				"messages": messages,
+				"messages":         messages,
+				"recaptcha_public": settings.RecaptchaPublicKey,
 			})
 			if err != nil {
 				return err, ""
@@ -98,7 +110,7 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 		}
 	}
 	rendered_tpl, err := registerTpl.Execute(pongo2.Context{
-	//Whatever context
+		"recaptcha_public": settings.RecaptchaPublicKey,
 	})
 	if err != nil {
 		return err, ""

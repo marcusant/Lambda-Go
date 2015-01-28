@@ -34,15 +34,15 @@ func Init() {
 	}
 	secretKey, err := ioutil.ReadFile("../secretkey")
 	if err == nil {
-		SecretKey = string(secretKey)
+		SecretKey = strings.TrimSpace(string(secretKey))
 	}
 
 	rPvtKey, err := ioutil.ReadFile("../rcpvtkey")
 	if err == nil {
-		RecaptchaPrivateKey = string(rPvtKey)
+		RecaptchaPrivateKey = strings.TrimSpace(string(rPvtKey))
 	}
 	rPubKey, err := ioutil.ReadFile("../rcpubkey")
 	if err == nil {
-		RecaptchaPublicKey = string(rPubKey)
+		RecaptchaPublicKey = strings.TrimSpace(string(rPubKey))
 	}
 }

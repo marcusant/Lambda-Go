@@ -15,8 +15,8 @@
     <div class="row">
         <input name = "password2" type="password" placeholder="Password (Again ☹)" class="inputbox"/>
     </div>
-    <div class="row">
-        <input name="email" type="text" placeholder="E-mail" class="inputbox"/>
+    <div class="row" style="width:300px">
+        <div class="g-recaptcha" data-sitekey="{{ recaptcha_public }}" style="margin-bottom:10px"></div>
     </div>
     <input type="submit" class="round button login-button" style="" value="Register"/>
 </form>
