@@ -7,6 +7,7 @@ import (
 	"lambda.sx/marcus/lambdago/sql"
 	"lambda.sx/marcus/lambdago/views"
 	"net/http"
+	"runtime"
 	"strings"
 )
 
@@ -32,6 +33,7 @@ var urlMap = map[string]ViewFunc{
 }
 
 func main() {
+	runtime.GOMAXPROCS(runtime.NumCPU())
 	settings.Init()
 	// Start up SQL connection
 	sql.Init()
