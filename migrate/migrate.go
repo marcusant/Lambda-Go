@@ -28,7 +28,7 @@ func MigrateDB() {
 	}
 	djsess, err := db.Open(mysql.Adapter, dbsettings)
 	if err != nil {
-		log.Fatalf("SQL connection failed! %q\n", err)
+		log.Printf("SQL connection failed! %q\n", err)
 		return
 	} else {
 		defer djsess.Close()
