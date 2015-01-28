@@ -11,6 +11,9 @@ import (
 // KEEP SECRET!!!
 var SecretKey = "dongLyfe420"
 
+var RecaptchaPrivateKey = ""
+var RecaptchaPublicKey = ""
+
 var Themes = [...]string{"material", "space"}
 
 var dbsettings = mysql.ConnectionURL{
@@ -32,5 +35,14 @@ func Init() {
 	secretKey, err := ioutil.ReadFile("../secretkey")
 	if err == nil {
 		SecretKey = string(secretKey)
+	}
+
+	rPvtKey, err := ioutil.ReadFile("../rcpvtkey")
+	if err == nil {
+		RecaptchaPrivateKey = string(rPvtKey)
+	}
+	rPubKey, err := ioutil.ReadFile("../rcpubkey")
+	if err == nil {
+		RecaptchaPublicKey = string(rPubKey)
 	}
 }

@@ -2,8 +2,10 @@ package views
 
 import (
 	"encoding/json"
+	"github.com/flosch/pongo2"
 	"io"
 	"lambda.sx/marcus/lambdago/models"
+	"lambda.sx/marcus/lambdago/session"
 	"lambda.sx/marcus/lambdago/sql"
 	"math/rand"
 	"net/http"
@@ -34,11 +36,22 @@ type uploadResponse struct {
 	Errors  []string `json:"errors"`
 }
 
+var uploadTpl = pongo2.Must(pongo2.FromFile("templates/upload.html"))
+
 func HandleUpload(r *http.Request, w http.ResponseWriter) (error, string) {
 	if r.Method == "POST" {
 		return HandleUploadAPI(r, w)
 	}
-	return nil, "Not yet implemented!"
+	user := session.GetUser(r, w)
+	if user.ID == 0 { // Not logged in
+		http.Redirect(w, r, "/login", 302)
+		return nil, ""
+	}
+	rendered_upload_page, _ := uploadTpl.Execute(pongo2.Context{
+		"user":            user,
+		"max_filesize_mb": 20,
+	})
+	return nil, rendered_upload_page
 }
 
 func HandleUploadAPI(r *http.Request, w http.ResponseWriter) (error, string) {
@@ -53,6 +66,10 @@ func HandleUploadAPI(r *http.Request, w http.ResponseWriter) (error, string) {
 	}
 
 	apikey := r.FormValue("apikey")
+	sessU := session.GetUser(r, w)
+	if sessU.ID > 0 {
+		apikey = sessU.ApiKey
+	}
 	if apikey == "" {
 		response := uploadResponse{
 			false,
