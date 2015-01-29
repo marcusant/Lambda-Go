@@ -17,13 +17,13 @@
   "Name": "Lambda",
   "RequestType": "POST",
   "RequestURL": "https://lambda.sx/upload",
-  "FileFormName": "files[]",
+  "FileFormName": "file",
   "Arguments": {
     "apikey": "{{ user.ApiKey }}"
   },
   "ResponseType": "Text",
   "RegexList": [
-    "\"url\": \"(.*?)\""
+    "\"url\":\"(.*?)\""
   ],
   "URL": "https://λ.pw/$1,1$",
   "ThumbnailURL": "",
