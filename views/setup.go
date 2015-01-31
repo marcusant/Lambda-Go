@@ -3,6 +3,7 @@ package views
 import (
 	"github.com/flosch/pongo2"
 	"lambda.sx/marcus/lambdago/session"
+	"lambda.sx/marcus/lambdago/settings"
 	"net/http"
 )
 
@@ -17,7 +18,8 @@ func HandleSetupSharex(r *http.Request, w http.ResponseWriter) (error, string) {
 		return nil, ""
 	}
 	rendered_sharex, err := setupSharexTpl.Execute(pongo2.Context{
-		"user": user,
+		"user":  user,
+		"nocdn": !settings.UseCDN,
 	})
 	if err != nil {
 		return err, ""
@@ -32,7 +34,8 @@ func HandleSetupLambda(r *http.Request, w http.ResponseWriter) (error, string) {
 		return nil, ""
 	}
 	rendered_lambda, err := setupLambdaTpl.Execute(pongo2.Context{
-		"user": user,
+		"user":  user,
+		"nocdn": !settings.UseCDN,
 	})
 	if err != nil {
 		return err, ""

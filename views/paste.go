@@ -4,6 +4,7 @@ import (
 	"github.com/flosch/pongo2"
 	"lambda.sx/marcus/lambdago/models"
 	"lambda.sx/marcus/lambdago/session"
+	"lambda.sx/marcus/lambdago/settings"
 	"lambda.sx/marcus/lambdago/sql"
 	"net/http"
 	"time"
@@ -20,7 +21,8 @@ func HandlePaste(r *http.Request, w http.ResponseWriter) (error, string) {
 	}
 	if r.Method != "POST" {
 		rendered_paste_page, _ := pasteTpl.Execute(pongo2.Context{
-			"user": user,
+			"user":  user,
+			"nocdn": !settings.UseCDN,
 		})
 		return nil, rendered_paste_page
 	} else {
@@ -45,6 +47,7 @@ func HandlePaste(r *http.Request, w http.ResponseWriter) (error, string) {
 func HandleViewPaste(r *http.Request, w http.ResponseWriter, json string) (error, string) {
 	renderedViewPaste, _ := viewPasteTpl.Execute(pongo2.Context{
 		"content": json,
+		"nocdn":   !settings.UseCDN,
 	})
 	return nil, renderedViewPaste
 }

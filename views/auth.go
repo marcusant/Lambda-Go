@@ -47,6 +47,7 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 			rendered_tpl, _ := registerTpl.Execute(pongo2.Context{
 				"messages":         [...]string{msg},
 				"recaptcha_public": settings.RecaptchaPublicKey,
+				"nocdn":            !settings.UseCDN,
 			})
 			return nil, rendered_tpl
 		}
@@ -82,6 +83,7 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 			rendered_tpl, err := registerTpl.Execute(pongo2.Context{
 				"messages":         messages,
 				"recaptcha_public": settings.RecaptchaPublicKey,
+				"nocdn":            !settings.UseCDN,
 			})
 			if err != nil {
 				return err, ""
@@ -136,6 +138,7 @@ func HandleLogin(r *http.Request, w http.ResponseWriter) (error, string) {
 			msg := fmt.Sprintf("SQL connection failed: %s", err)
 			rendered_tpl, _ := registerTpl.Execute(pongo2.Context{
 				"messages": [...]string{msg},
+				"nocdn":    !settings.UseCDN,
 			})
 			return nil, rendered_tpl
 		}
@@ -166,6 +169,7 @@ func HandleLogin(r *http.Request, w http.ResponseWriter) (error, string) {
 
 		rendered_tpl, err := loginTpl.Execute(pongo2.Context{
 			"messages": messages,
+			"nocdn":    !settings.UseCDN,
 		})
 		if err != nil {
 			return err, ""
@@ -175,7 +179,7 @@ func HandleLogin(r *http.Request, w http.ResponseWriter) (error, string) {
 
 	}
 	rendered_tpl, err := loginTpl.Execute(pongo2.Context{
-	//Whatever context
+		"nocdn": !settings.UseCDN,
 	})
 	if err != nil {
 		return err, ""

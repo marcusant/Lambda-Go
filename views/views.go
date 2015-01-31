@@ -4,6 +4,7 @@ import (
 	"github.com/flosch/pongo2"
 	"lambda.sx/marcus/lambdago/models"
 	"lambda.sx/marcus/lambdago/session"
+	"lambda.sx/marcus/lambdago/settings"
 	"lambda.sx/marcus/lambdago/sql"
 	"mime"
 	"net/http"
@@ -19,7 +20,8 @@ var fourohfourTpl = pongo2.Must(pongo2.FromFile("templates/404.html"))
 func HandleIndex(r *http.Request, w http.ResponseWriter) (error, string) {
 	user := session.GetUser(r, w)
 	rendered_index, err := indexTpl.Execute(pongo2.Context{
-		"user": user,
+		"user":  user,
+		"nocdn": !settings.UseCDN,
 	})
 	if err != nil {
 		return err, ""
@@ -30,7 +32,8 @@ func HandleIndex(r *http.Request, w http.ResponseWriter) (error, string) {
 func HandleAbout(r *http.Request, w http.ResponseWriter) (error, string) {
 	user := session.GetUser(r, w)
 	rendered_about, err := aboutTpl.Execute(pongo2.Context{
-		"user": user,
+		"user":  user,
+		"nocdn": !settings.UseCDN,
 	})
 	if err != nil {
 		return err, ""
@@ -70,7 +73,8 @@ func HandleDefault(r *http.Request, w http.ResponseWriter) (error, string) {
 
 	user := session.GetUser(r, w)
 	rendered_404, err := fourohfourTpl.Execute(pongo2.Context{
-		"user": user,
+		"user":  user,
+		"nocdn": !settings.UseCDN,
 	})
 	if err != nil {
 		return err, ""

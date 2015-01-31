@@ -9,8 +9,13 @@
     <title>λ - {% block title %}Untitled{% endblock %}</title>
     {% block defaultcss %}
     <link href='/static/img/favicon.ico' rel='shortcut icon' type='image/x-icon' />
-    <link href='//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.0/css/normalize.min.css' rel='stylesheet' type='text/css' />
-    <link href='//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.0/css/foundation.min.css' rel='stylesheet' type='text/css' />
+    {% if nocdn %}
+        <link href='/static/nocdn/foundation/5.5.0/css/normalize.min.css' rel='stylesheet' type='text/css' />
+        <link href='/static/nocdn/foundation/5.5.0/css/foundation.min.css' rel='stylesheet' type='text/css' />
+    {% else %}
+        <link href='//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.0/css/normalize.min.css' rel='stylesheet' type='text/css' />
+        <link href='//cdnjs.cloudflare.com/ajax/libs/foundation/5.5.0/css/foundation.min.css' rel='stylesheet' type='text/css' />
+    {% endif %}        
     <link href='/static/css/index.css' rel='stylesheet' type='text/css' />
     {% endblock %}
     {% block head %}{% endblock %}

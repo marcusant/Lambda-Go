@@ -25,6 +25,7 @@ func HandleUserCP(r *http.Request, w http.ResponseWriter) (error, string) {
 	rendered_user_cp, err := usercpTpl.Execute(pongo2.Context{
 		"user":   user,
 		"themes": settings.Themes,
+		"nocdn":  !settings.UseCDN,
 	})
 	if err != nil {
 		return err, ""
@@ -52,6 +53,7 @@ func HandleManageUploads(r *http.Request, w http.ResponseWriter) (error, string)
 		"pastes":         pastes,
 		"images":         files,
 		"img_extensions": []string{".png", ".jpg"},
+		"nocdn":          !settings.UseCDN,
 	})
 	if err != nil {
 		return err, ""

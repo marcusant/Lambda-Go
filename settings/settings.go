@@ -14,6 +14,8 @@ var SecretKey = "dongLyfe420"
 var RecaptchaPrivateKey = ""
 var RecaptchaPublicKey = ""
 
+var UseCDN = false
+
 var Themes = [...]string{"material", "space"}
 
 var dbsettings = mysql.ConnectionURL{
@@ -44,5 +46,10 @@ func Init() {
 	rPubKey, err := ioutil.ReadFile("../rcpubkey")
 	if err == nil {
 		RecaptchaPublicKey = strings.TrimSpace(string(rPubKey))
+	}
+
+	_, err = ioutil.ReadFile("../usecdn")
+	if err == nil { //The file exists
+		UseCDN = true
 	}
 }
