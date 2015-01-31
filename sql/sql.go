@@ -50,7 +50,7 @@ func createTables() {
 		"id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT," +
 		"owner MEDIUMINT UNSIGNED NOT NULL," +
 		"name VARCHAR(16) NOT NULL," +
-		"extension VARCHAR(4) NOT NULL," +
+		"extension VARCHAR(5) NOT NULL," +
 		"upload_date Date NOT NULL," +
 		"encrypted BOOL NOT NULL," +
 		"local_name VARCHAR(128) NOT NULL," +
