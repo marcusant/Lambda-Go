@@ -5,6 +5,7 @@ import (
 	"lambda.sx/marcus/lambdago/models"
 	"lambda.sx/marcus/lambdago/session"
 	"lambda.sx/marcus/lambdago/sql"
+	"mime"
 	"net/http"
 	"strings"
 	"upper.io/db"
@@ -46,6 +47,12 @@ func HandleDefault(r *http.Request, w http.ResponseWriter) (error, string) {
 	for _, ext := range allowedTypes {
 		path := "uploads/" + url + "." + ext
 		if fileExists(path) {
+			mimetype := mime.TypeByExtension("." + ext)
+			w.Header().Set("Content-Type", mimetype)
+			w.Header().Set("Cache-Control", "public, max-age=259200")
+			// Don't let browsers guess a mime type other than the one we say.
+			// Prevents users from serving files with a different extension from their true type.
+			w.Header().Set("X-Content-Type-Options", "nosniff")
 			http.ServeFile(w, r, path)
 			return nil, ""
 		}
