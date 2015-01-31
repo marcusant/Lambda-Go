@@ -44,6 +44,7 @@ func HandleDefault(r *http.Request, w http.ResponseWriter) (error, string) {
 	if url != "" {
 		url = url[1:] // Remove "/" from before request
 	}
+	url = strings.Split(url, ".")[0] //Ignore any extensions
 	for _, ext := range allowedTypes {
 		path := "uploads/" + url + "." + ext
 		if fileExists(path) {
