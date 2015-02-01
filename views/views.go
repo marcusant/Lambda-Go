@@ -51,6 +51,10 @@ func HandleDefault(r *http.Request, w http.ResponseWriter) (error, string) {
 	for _, ext := range allowedTypes {
 		path := "uploads/" + url + "." + ext
 		if fileExists(path) {
+			if r.Header.Get("If-Modified-Since") != "" { //They already have the image
+				w.WriteHeader(304)
+				return nil, ""
+			}
 			mimetype := mime.TypeByExtension("." + ext)
 			w.Header().Set("Content-Type", mimetype)
 			w.Header().Set("Cache-Control", "public, max-age=259200")
