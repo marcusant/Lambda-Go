@@ -149,7 +149,6 @@ func HandleLogin(r *http.Request, w http.ResponseWriter) (error, string) {
 			messages = append(messages, "No user exists with username")
 		} else if count > 0 {
 			var user models.User
-			fmt.Println(user)
 			result.One(&user)
 
 			correctPass, _ := checkPassword(user, password)
