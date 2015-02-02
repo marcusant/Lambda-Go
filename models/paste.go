@@ -10,6 +10,7 @@ type Paste struct {
 	Name        string    `db:"name"`
 	UploadDate  time.Time `db:"upload_date"`
 	ContentJson string    `db:"content_json"`
+	IsCode      bool      `db:"is_code"`
 }
 
 // Inheriting from Model interface

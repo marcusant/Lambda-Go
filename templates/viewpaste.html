@@ -17,6 +17,8 @@
 
 {% block scripts %}
 <script data-cfasync="false" src="//cdnjs.cloudflare.com/ajax/libs/sjcl/1.0.0/sjcl.min.js"></script>
+{% if iscode %}
 <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?autoload=false&skin=desert"></script>
+{% endif %}
 <script data-cfasync="false" src="/static/js/viewpaste.coffee.js/viewpaste.js"></script>
 {% endblock %}

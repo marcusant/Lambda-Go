@@ -110,6 +110,7 @@ func MigrateDB() {
 				Name:        p.Name,
 				ContentJson: p.ReqJson,
 				UploadDate:  p.UploadDate,
+				IsCode:      true,
 			}
 			pasteCol, _ := sql.Connection().Collection("pastes")
 			pasteCol.Append(gopaste)

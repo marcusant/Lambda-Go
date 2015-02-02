@@ -27,6 +27,12 @@ body {
     scrollbar-track-color: rgba(60, 60, 60, 0.4);
 }
 
+.code-checkbox {
+  position: fixed;
+  bottom: -5px;
+  right: 30px;
+}
+
 .button {
     background: #073642;
     color: #586e75;

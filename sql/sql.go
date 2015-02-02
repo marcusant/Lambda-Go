@@ -62,6 +62,7 @@ func createTables() {
 		"name VARCHAR(16) NOT NULL," +
 		"upload_date Date NOT NULL," +
 		"content_json VARCHAR(50000) NOT NULL," +
+		"is_code BOOL NOT NULL," +
 		"primary key(id)" +
 		")")
 }

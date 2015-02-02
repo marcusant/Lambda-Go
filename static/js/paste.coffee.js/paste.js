@@ -21,8 +21,10 @@
     enc_text = sjcl.encrypt(key, text);
     console.log(enc_text);
     csrf_token = $.cookie('csrftoken');
+    is_code = $("#codeCheckbox").prop('checked')
     return jQuery.post(upload_url, {
       encr: enc_text,
+      is_code: is_code,
       csrfmiddlewaretoken: csrf_token
     }, null, 'text').done(function(data) {
       return window.location.href = "/" + data + "#" + key;
@@ -34,5 +36,3 @@
   };
 
 }).call(this);
-
-//# sourceMappingURL=paste.js.map

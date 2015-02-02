@@ -72,7 +72,7 @@ func HandleDefault(r *http.Request, w http.ResponseWriter) (error, string) {
 	if err == nil && cnt > 0 {
 		var paste models.Paste
 		result.One(&paste)
-		return HandleViewPaste(r, w, paste.ContentJson)
+		return HandleViewPaste(r, w, paste.ContentJson, paste.IsCode)
 	}
 
 	user := session.GetUser(r, w)

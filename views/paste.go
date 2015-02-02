@@ -7,6 +7,7 @@ import (
 	"lambda.sx/marcus/lambdago/settings"
 	"lambda.sx/marcus/lambdago/sql"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -27,6 +28,10 @@ func HandlePaste(r *http.Request, w http.ResponseWriter) (error, string) {
 		return nil, rendered_paste_page
 	} else {
 		encr := r.PostFormValue("encr")
+		isCode, err := strconv.ParseBool(r.PostFormValue("is_code"))
+		if err != nil {
+			isCode = false
+		}
 		if encr == "" {
 			return nil, "Error: no json posted"
 		}
@@ -38,16 +43,18 @@ func HandlePaste(r *http.Request, w http.ResponseWriter) (error, string) {
 			Name:        pasteName,
 			UploadDate:  time.Now(),
 			ContentJson: encr,
+			IsCode:      isCode,
 		})
 		return nil, pasteName
 	}
 
 }
 
-func HandleViewPaste(r *http.Request, w http.ResponseWriter, json string) (error, string) {
+func HandleViewPaste(r *http.Request, w http.ResponseWriter, json string, isCode bool) (error, string) {
 	renderedViewPaste, _ := viewPasteTpl.Execute(pongo2.Context{
 		"content": json,
 		"nocdn":   !settings.UseCDN,
+		"iscode":  isCode,
 	})
 	return nil, renderedViewPaste
 }
