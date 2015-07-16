@@ -2,8 +2,9 @@ package sql
 
 import (
 	"database/sql"
-	"lambda.sx/marcus/lambdago/settings"
 	"log"
+
+	"lambda.sx/marcus/lambdago/settings"
 	"upper.io/db"
 	"upper.io/db/mysql"
 )

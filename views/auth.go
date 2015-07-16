@@ -6,6 +6,12 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"net/http"
+	"regexp"
+	"strconv"
+	"strings"
+	"time"
+
 	"github.com/flosch/pongo2"
 	"github.com/gorilla/sessions"
 	"golang.org/x/crypto/pbkdf2"
@@ -14,11 +20,6 @@ import (
 	"lambda.sx/marcus/lambdago/session"
 	"lambda.sx/marcus/lambdago/settings"
 	"lambda.sx/marcus/lambdago/sql"
-	"net/http"
-	"regexp"
-	"strconv"
-	"strings"
-	"time"
 	"upper.io/db"
 )
 
@@ -37,7 +38,12 @@ func HandleRegister(r *http.Request, w http.ResponseWriter) (error, string) {
 		passwordTwo := r.PostFormValue("password2")
 		recaptchaResponse := r.PostFormValue("g-recaptcha-response")
 
-		recaptchaSuccess := recaptcha.CheckRecaptcha(settings.RecaptchaPrivateKey, recaptchaResponse)
+		recaptchaSuccess := false
+		if len(settings.RecaptchaPrivateKey) > 0 && len(settings.RecaptchaPublicKey) > 0 {
+			recaptchaSuccess = recaptcha.CheckRecaptcha(settings.RecaptchaPrivateKey, recaptchaResponse)
+		} else { // Recaptcha stuff isn't set. Don't check recaptcha.
+			recaptchaSuccess = true
+		}
 
 		col, err := sql.Connection().Collection("users")
 
