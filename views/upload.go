@@ -26,6 +26,15 @@ var allowedTypes = [...]string{
 	"opus",
 	"mp4",
 	"webm",
+	"zip",
+	"rar",
+	"7z",
+}
+
+var downloadTypes = [...]string{
+	"zip",
+	"rar",
+	"7z",
 }
 
 type file struct {
@@ -185,6 +194,13 @@ func HandleUploadAPI(r *http.Request, w http.ResponseWriter) (error, string) {
 		Encrypted:  false,
 		LocalName:  localname,
 	})
+
+	// If the upload is a downloaded type, add the extension to the url
+	for _, t := range downloadTypes {
+		if extension == t {
+			filename += "." + extension
+		}
+	}
 
 	response := uploadResponse{
 		true,
