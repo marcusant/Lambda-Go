@@ -3,30 +3,19 @@
 {% block title %}Upload{% endblock %}
 
 {% block content %}
-    <div class="round text-center jumbo center-vertical">
-        <form action="/upload" class="dropzone" id="lambda-dropzone" style="margin:auto">
-            <div id="icon-wrapper" class="upload-page-icon">
-                <i class="fa fa-arrow-circle-o-down" style="font-size: 250pt;"></i>
-            </div>
-            <br/>
-        </form>
-    </div>
+<div class="upload-content">
+  <div class="upload-title" id="uploadTitle" onclick="document.getElementById('chooseFile').click();return false;">Drag and drop a file or click here to select a file.</div>
+  <div id="finishedUploads" class="upload-title finished" hidden>
+    Finished Uploads
+  </div>
+</div>
+  <input type="file" id="chooseFile" style="visibility: hidden;"></input>
 {% endblock %}
 
 {% block scripts %}
-    <script src="//cdnjs.cloudflare.com/ajax/libs/dropzone/3.12.0/dropzone.min.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(document).ready(function()
-        {
-            Dropzone.options.lambdaDropzone = {
-                maxFilesize: {{ max_filesize_mb }},
-                init: function () {
-                    this.on("success", function (file, responseText) {
-                        console.log(responseText)
-                        window.location.href = '/' + JSON.parse(responseText).files[0].url;
-                    });
-                }
-            };
-        });
-</script>
+    <script src="/static/js/page/upload/upload.js" type="text/javascript">
+      apikey = {{ user.ApiKey }};
+      sizeLimit = {{ max_filesize_mb }};
+      allowedTypes = {{ allowedTypes|safe }};
+    </script>
 {% endblock %}

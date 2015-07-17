@@ -138,6 +138,46 @@ input[type="text"][disabled], input[type="text"][readonly], fieldset[disabled] i
     background-color: #37474F;
 }
 
+.upload-content {
+  max-width: 600px;
+  margin: auto;
+  margin-top: 24px;
+}
+
+.upload-section {
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.3);
+  margin-top: 12px;
+  padding: 2px;
+}
+
+.upload-title {
+  background-color: #2196F3;
+  color: #f6f6f6;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4), 0 3px 3px rgba(0,0,0,0.3);
+  width: 100%;
+  font-weight: lighter;
+  font-size: 150%;
+  text-align: center;
+  padding: 4px;
+  margin-top: 12px;
+}
+
+.upload-title.finished {
+  background-color: rgb(110, 240, 140);
+  color: #444;
+}
+
+.finished-uploads {
+  background-color: #f6f6f6;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.3);
+  max-width: none;
+  margin: auto;
+  margin-bottom: 4px;
+  font-weight: normal;
+  font-size: 75%;
+}
+
 select, select:hover {
     color: inherit;
     box-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.5);

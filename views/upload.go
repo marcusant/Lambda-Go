@@ -2,17 +2,18 @@ package views
 
 import (
 	"encoding/json"
-	"github.com/flosch/pongo2"
 	"io"
-	"lambda.sx/marcus/lambdago/models"
-	"lambda.sx/marcus/lambdago/session"
-	"lambda.sx/marcus/lambdago/settings"
-	"lambda.sx/marcus/lambdago/sql"
 	"math/rand"
 	"net/http"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/flosch/pongo2"
+	"lambda.sx/marcus/lambdago/models"
+	"lambda.sx/marcus/lambdago/session"
+	"lambda.sx/marcus/lambdago/settings"
+	"lambda.sx/marcus/lambdago/sql"
 	"upper.io/db"
 )
 
@@ -50,8 +51,9 @@ func HandleUpload(r *http.Request, w http.ResponseWriter) (error, string) {
 	}
 	rendered_upload_page, _ := uploadTpl.Execute(pongo2.Context{
 		"user":            user,
-		"max_filesize_mb": 20,
+		"max_filesize_mb": 50,
 		"nocdn":           !settings.UseCDN,
+		"allowedTypes":    allowedTypes,
 	})
 	return nil, rendered_upload_page
 }
