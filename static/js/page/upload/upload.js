@@ -107,7 +107,7 @@ function createStatusIndicator(xhr, file) {
 
   xhr.upload.addEventListener('progress', function(e) {
     var pct = e.loaded / e.total;
-    if(pct >= 100) {
+    if(pct >= 1.0) {
       progressSection.removeChild(circleContainer);
     } else {
       var degrees = pct*360;
