@@ -58,7 +58,7 @@ function onUploadFinish(responseText) {
 }
 
 function checkAndUpload(file) {
-  if(typeAllowed(file.type)) {
+  if(typeAllowed(file)) {
     if(file.size <= sizeLimit*1000000) {
       uploadFile(file, onUploadFinish);
     } else {
@@ -83,10 +83,10 @@ function uploadFile(file, onFinish) {
   xhr.send(fd);
 }
 
-function typeAllowed(type) {
+function typeAllowed(file) {
   for(var i = 0; i < allowedTypes.length; i++) {
     var t = allowedTypes[i].toLowerCase();
-    if(endsWith(type.toLowerCase(), '/' + t)) {
+    if(endsWith(file.name.toLowerCase(), '.' + t)) {
       return true;
     }
   }
