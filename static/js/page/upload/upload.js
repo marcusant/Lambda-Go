@@ -75,12 +75,65 @@ function uploadFile(file, onFinish) {
   xhr.open('POST', UPLOAD_URL, true);
   fd.append('apikey', apikey)
   fd.append('file', file);
+  createStatusIndicator(xhr, file);
   xhr.onreadystatechange = function() { // on upload finish
     if(xhr.readyState == 4 && xhr.status == 200) {
       onFinish(xhr.responseText);
     }
   }
   xhr.send(fd);
+}
+
+function createStatusIndicator(xhr, file) {
+  var progressSection = document.getElementById('uploadProgress');
+
+  var circleContainer = document.createElement('div');
+  circleContainer.className = 'upload-circle-container';
+  var outerCircle = document.createElement('div');
+  outerCircle.className = 'upload-percent-circle';
+  var innerCircle;
+  if(isImage(file)) {
+    innerCircle = document.createElement('img');
+    innerCircle.className = 'upload-top-circle-img';
+    innerCircle.src = URL.createObjectURL(file);
+  } else {
+    innerCircle = document.createElement('div')
+    innerCircle.className = 'upload-top-circle';
+  }
+
+  outerCircle.appendChild(innerCircle);
+  circleContainer.appendChild(outerCircle);
+  progressSection.appendChild(circleContainer);
+
+  xhr.upload.addEventListener('progress', function(e) {
+    var pct = e.loaded / e.total;
+    if(pct >= 100) {
+      progressSection.removeChild(circleContainer);
+    } else {
+      var degrees = pct*360;
+
+      // I cannot explain for the life of me why this works, but it does, so don't touch it unless you're web jesus
+      if(degrees <= 180) {
+        degrees += 90;
+
+        outerCircle.style.backgroundImage =
+            'linear-gradient(' + degrees +
+            'deg, transparent 50%, #F48FB1 50%),' +
+            'linear-gradient(90deg, #F48FB1 50%, transparent 50%)';
+      } else {
+        degrees -= 90;
+
+        outerCircle.style.backgroundImage =
+            'linear-gradient(90deg, transparent 50%, #AD1457 50%),' +
+            'linear-gradient(' + degrees +
+            'deg, #F48FB1 50%, transparent 50%)';
+      }
+    }
+  }, false);
+}
+
+function isImage(file) {
+  return file.type.lastIndexOf('image/', 0) === 0; // beginsWith('image/')
 }
 
 function typeAllowed(file) {
